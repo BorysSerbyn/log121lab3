@@ -32,9 +32,9 @@ public class TranslateController {
 
     public void translate(int deltaX, int deltaY){
         ImageEdit oldEdit = Originator.getSingleton().getImageEdit();
-        Thumbnail thumbnail = transPanel.getThumbnail();
         ImageEdit newEdit;
         if(oldEdit == null){
+            Thumbnail thumbnail = transPanel.getThumbnail();
             newEdit = new ImageEdit(thumbnail.getImage());
         }else{
             newEdit = oldEdit.clone();
