@@ -17,10 +17,12 @@ public class ImageEdit implements Cloneable{
     }
 
     public ImageEdit(BufferedImage thumbnail) {
+        this.image = thumbnail;
         this.thumbnail = thumbnail;
     }
 
     public ImageEdit(BufferedImage thumbnail, int translateX, int translateY, float zoomPercentage) {
+        this.image = thumbnail;
         this.thumbnail = thumbnail;
         this.translateX = translateX;
         this.translateY = translateY;
@@ -46,15 +48,29 @@ public class ImageEdit implements Cloneable{
         return translateY;
     }
 
-    public void setTranslateX(int translateX) {
-        this.translateX = translateX;
+    public void incrementX(int delta) {
+        if(translateX+delta < 0){
+            return;
+        }
+        if(translateX+delta+zoomRect.width > image.getWidth()){
+            return;
+        }
+        this.translateX = translateX + delta;
     }
 
-    public void setTranslateY(int translateY) {
-        this.translateY = translateY;
+    public void incrementY(int delta) {
+        if(translateY+delta < 0){
+            return;
+        }
+        if(translateY+delta+zoomRect.height > image.getHeight()){
+            return;
+        }
+        this.translateY = translateY + delta;
     }
 
-    public void setZoomPercentage(float zoomPercentage) {
+    public void setZoom(float zoomPercentage) {
         this.zoomPercentage = zoomPercentage;
+        zoomRect.height = (int)(zoomPercentage * image.getHeight());
+        zoomRect.width = (int)(zoomPercentage * image.getWidth());
     }
 }

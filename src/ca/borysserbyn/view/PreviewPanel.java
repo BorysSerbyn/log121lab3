@@ -19,6 +19,7 @@ public class PreviewPanel extends JPanel implements Observer {
     }
 
     public void initialize(){
+        BufferedImage image = Originator.getSingleton().getImageEdit().getImage();
         imageLabel = new JLabel(new ImageIcon(image));
         add(imageLabel);
         imageLabel.setPreferredSize(new Dimension(300, 250));

@@ -2,59 +2,76 @@ package ca.borysserbyn.view;
 
 import ca.borysserbyn.controller.TranslateController;
 import ca.borysserbyn.model.Thumbnail;
+import ca.borysserbyn.model.memento.Originator;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.AdjustmentEvent;
-import java.awt.event.AdjustmentListener;
+import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
 import java.util.Observable;
 import java.util.Observer;
 
-public class TranslationPanel extends JPanel implements Observer, AdjustmentListener {
-    private BufferedImage thumbnail;
-    private ScrollablePicture scrollablePicture;
-    private JScrollPane scrollPane;
+public class TranslationPanel extends JPanel implements Observer {
+    private Thumbnail thumbnail;
     private TranslateController translateController = new TranslateController(this);
 
-    public TranslationPanel(BufferedImage thumbnail) {
-        super();
+    private JButton leftButton = new JButton("left");
+    private JButton rightButton = new JButton("right");
+    private JButton upButton = new JButton("up");
+    private JButton downButton = new JButton("down");
+    private JToolBar toolBar = new JToolBar();
+
+    private JLabel imageLabel;
+
+    public TranslationPanel(Thumbnail thumbnail) {
+        super(new BorderLayout());
         this.thumbnail = thumbnail;
         initialize();
     }
 
     public void update(Observable arg0, Object arg1) {
-
-        //get zoom percentage \n set scroll pane zoom
-
-        thumbnail = ((Thumbnail) arg0).getImage();
-        scrollablePicture.setIcon(new ImageIcon(thumbnail));
+        BufferedImage image = ((Originator) arg0).getImageEdit().getImage();
+        imageLabel.setIcon(new ImageIcon(image));
     }
 
     public void initialize(){
-        scrollablePicture = new ScrollablePicture(new ImageIcon(thumbnail), 1);
-        scrollPane = new JScrollPane(scrollablePicture);
-        scrollPane.setPreferredSize(new Dimension(300, 250));
-        scrollPane.setViewportBorder(BorderFactory.createLineBorder(Color.black));
+        BufferedImage image = Originator.getSingleton().getImageEdit().getImage();
+        imageLabel = new JLabel(new ImageIcon(image));
+        imageLabel.setPreferredSize(new Dimension(300, 250));
 
-        scrollPane.getVerticalScrollBar().addAdjustmentListener(this);
-        scrollPane.getHorizontalScrollBar().addAdjustmentListener(this);
 
-        add(scrollPane);
+        leftButton.addActionListener(this::clickLeftButton);
+        rightButton.addActionListener(this::clickRightButton);
+        upButton.addActionListener(this::clickUpButton);
+        downButton.addActionListener(this::clickDownButton);
+        toolBar.add(leftButton);
+        toolBar.add(rightButton);
+        toolBar.add(downButton);
+        toolBar.add(upButton);
+
+        add(toolBar, BorderLayout.SOUTH);
+        add(imageLabel, BorderLayout.CENTER);
+
         setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
     }
 
-    public Point getScrollBarPosition(){
-        JViewport viewport = scrollPane.getViewport();
-        return viewport.getViewPosition();
-    }
-
-    public BufferedImage getThumbnail() {
+    public Thumbnail getThumbnail() {
         return thumbnail;
     }
 
-    @Override
-    public void adjustmentValueChanged(AdjustmentEvent e) {
-        translateController.translate();
+    public void clickLeftButton(ActionEvent e){
+        translateController.translateLeft();
+    }
+
+    public void clickRightButton(ActionEvent e){
+        translateController.translateRight();
+    }
+
+    public void clickDownButton(ActionEvent e){
+        translateController.translateDown();
+    }
+
+    public void clickUpButton(ActionEvent e){
+        translateController.translateUp();
     }
 }

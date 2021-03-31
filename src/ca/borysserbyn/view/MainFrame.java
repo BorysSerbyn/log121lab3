@@ -1,5 +1,6 @@
 package ca.borysserbyn.view;
 
+import ca.borysserbyn.model.ImageEdit;
 import ca.borysserbyn.model.memento.Originator;
 import ca.borysserbyn.model.Thumbnail;
 
@@ -23,11 +24,16 @@ public class MainFrame extends JFrame {
     }
 
     public void initialize(){
-        translationPanel = new TranslationPanel(thumbnail.getImage());
+        ImageEdit initialEdit = new ImageEdit(thumbnail.getImage());
+        initialEdit.createEditedImage();
+        Originator.getSingleton().setImageEdit(initialEdit);
+
+        translationPanel = new TranslationPanel(thumbnail);
         previewPanel = new PreviewPanel(thumbnail.getImage());
 
-        thumbnail.addObserver(translationPanel);
+        //thumbnail.addObserver(translationPanel);
         originator.addObserver(previewPanel);
+        originator.addObserver(translationPanel);
 
         add(previewPanel, BorderLayout.LINE_START);
         add(translationPanel, BorderLayout.LINE_END);
