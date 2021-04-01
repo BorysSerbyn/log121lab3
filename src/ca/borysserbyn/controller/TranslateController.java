@@ -13,8 +13,7 @@ public class TranslateController {
         this.transPanel = transPanel;
     }
 
-
-   public void translateRight(){
+    public void translateRight(){
         translate(magnitude, 0);
     }
 
@@ -33,6 +32,7 @@ public class TranslateController {
     public void translate(int deltaX, int deltaY){
         ImageEdit oldEdit = Originator.getSingleton().getImageEdit();
         ImageEdit newEdit;
+
         if(oldEdit == null){
             Thumbnail thumbnail = transPanel.getThumbnail();
             newEdit = new ImageEdit(thumbnail.getImage());
@@ -41,8 +41,8 @@ public class TranslateController {
             newEdit.incrementX(deltaX);
             newEdit.incrementY(deltaY);
         }
+
         newEdit.createEditedImage();
         Originator.getSingleton().setImageEdit(newEdit);
     }
-
 }

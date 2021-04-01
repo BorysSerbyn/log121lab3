@@ -4,10 +4,13 @@ import ca.borysserbyn.controller.TranslateController;
 import ca.borysserbyn.model.Thumbnail;
 import ca.borysserbyn.model.memento.Originator;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -38,7 +41,6 @@ public class TranslationPanel extends JPanel implements Observer {
         BufferedImage image = Originator.getSingleton().getImageEdit().getImage();
         imageLabel = new JLabel(new ImageIcon(image));
         imageLabel.setPreferredSize(new Dimension(300, 250));
-
 
         leftButton.addActionListener(this::clickLeftButton);
         rightButton.addActionListener(this::clickRightButton);

@@ -30,11 +30,12 @@ public class ImageEdit implements Cloneable{
     }
 
     public void createEditedImage(){
-        /*int width = (int) (thumbnail.getWidth() * zoomPercentage);
-        int height = (int) (thumbnail.getHeight() * zoomPercentage);*/
         image = thumbnail.getSubimage(translateX, translateY, zoomRect.width-20, zoomRect.height-20);
     }
 
+    public BufferedImage createZoomedImage(){
+        return thumbnail.getSubimage(0, 0, zoomRect.width-20, zoomRect.height-20);
+    }
 
     public BufferedImage getImage() {
         return image;

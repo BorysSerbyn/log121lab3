@@ -11,13 +11,13 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class MainFrame extends JFrame {
+public class AppFrame extends JFrame {
     private TranslationPanel translationPanel;
     private PreviewPanel previewPanel;
     private Thumbnail thumbnail;
     private Originator originator = Originator.getSingleton();
 
-    public MainFrame(Thumbnail thumbnail){
+    public AppFrame(Thumbnail thumbnail){
         super();
         this.thumbnail = thumbnail;
         initialize();
@@ -53,13 +53,13 @@ public class MainFrame extends JFrame {
         return thumbnail;
     }
 
+
     public static void main(String[] args) {
         try {
             BufferedImage image = ImageIO.read(new File("./images/cool_image.jpg"));
-            MainFrame mainFrame = new MainFrame(new Thumbnail(image));
+            AppFrame appFrame = new AppFrame(new Thumbnail(image));
         } catch (IOException ex) {
             ex.printStackTrace();
         }
     }
-
 }
