@@ -1,5 +1,6 @@
 package ca.borysserbyn.view;
 
+import ca.borysserbyn.model.ImageEdit;
 import ca.borysserbyn.model.memento.Originator;
 
 import javax.swing.*;
@@ -13,17 +14,15 @@ import java.util.Observer;
  */
 
 public class PreviewPanel extends JPanel implements Observer {
-    private BufferedImage image;
     private JLabel imageLabel;
 
-    public PreviewPanel(BufferedImage image) {
+    public PreviewPanel() {
         super();
-        this.image = image;
         initialize();
     }
 
     public void initialize(){
-        BufferedImage image = Originator.getSingleton().getImageEdit().getImage();
+        BufferedImage image = ImageEdit.getSingleton().getImage();
         imageLabel = new JLabel(new ImageIcon(image));
         add(imageLabel);
         imageLabel.setPreferredSize(new Dimension(300, 250));
@@ -35,7 +34,8 @@ public class PreviewPanel extends JPanel implements Observer {
         TODO: si zoom et translate view sont independant, faire ca:
         image = ((Originator) arg0).getImageEdit().getZoomedImage();
          */
-        image = ((Originator) arg0).getImageEdit().getImage();
+
+        BufferedImage image = ImageEdit.getSingleton().getImage();
         imageLabel.setIcon(new ImageIcon(image));
     }
 }

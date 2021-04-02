@@ -6,24 +6,23 @@ import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
 
 import ca.borysserbyn.model.ImageEdit;
-import ca.borysserbyn.model.memento.Originator;
 
 public class TranslateDownCommand implements ActionListener{
-    private ImageEdit oldEdit = Originator.getSingleton().getImageEdit();
+    private ImageEdit imageEdit = ImageEdit.getSingleton();
     private int magnitude = 20;
 
     @Override
     public void actionPerformed(ActionEvent e) {
         // TODO Auto-generated method stub
-        if(oldEdit == null){
+        if(imageEdit == null){
             JOptionPane.showMessageDialog(null,
                     "Charger une image",
                     "Erreur",
                     JOptionPane.ERROR_MESSAGE);
         }else{
-            oldEdit.translate(0, magnitude);
+            imageEdit.translate(0, magnitude);
         }
-        
+
     }
     
 }

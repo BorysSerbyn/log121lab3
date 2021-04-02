@@ -18,7 +18,7 @@ import ca.borysserbyn.model.ImageEdit;
 import ca.borysserbyn.model.memento.Originator;
 
 public class ChargerCommand implements ActionListener{
-    private ImageEdit oldEdit = Originator.getSingleton().getImageEdit();
+    private ImageEdit imageEdit = ImageEdit.getSingleton();
     private int magnitude = 20;
 
     @Override
@@ -40,9 +40,8 @@ public class ChargerCommand implements ActionListener{
                 BufferedImage image;
                 try {
                     image = ImageIO.read(selectedFile);
-                    ImageEdit newEdit = new ImageEdit(image);
-                    newEdit.createEditedImage();
-                    Originator.getSingleton().setImageEdit(newEdit);
+                    ImageEdit.getSingleton().setImageEdit(new ImageEdit(image));
+                    imageEdit.createEditedImage();
                 } catch (IOException e1) {
                     // TODO Auto-generated catch block
                     e1.printStackTrace();

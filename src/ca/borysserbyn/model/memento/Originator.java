@@ -4,24 +4,14 @@ import ca.borysserbyn.model.ImageEdit;
 
 import java.util.Observable;
 
-public class Originator extends Observable {
-    private ImageEdit imageEdit = null;
-    private static Originator singleton;
-
-    public static Originator getSingleton(){
-        if(singleton == null){
-            singleton = new Originator();
-        }
-        return singleton;
-    }
+public class Originator {
+    private ImageEdit imageEdit;
 
     public synchronized ImageEdit getImageEdit(){
         return imageEdit;
     }
 
-    public synchronized void setImageEdit(ImageEdit imageEdit){
+    public void setImageEdit(ImageEdit imageEdit){
         this.imageEdit = imageEdit;
-        super.setChanged();
-        super.notifyObservers();
     }
 }

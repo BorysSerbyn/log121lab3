@@ -9,20 +9,21 @@ import ca.borysserbyn.model.ImageEdit;
 import ca.borysserbyn.model.memento.Originator;
 
 public class TranslateLeftCommand implements ActionListener{
-    private ImageEdit oldEdit = Originator.getSingleton().getImageEdit();
+    private ImageEdit imageEdit = ImageEdit.getSingleton();
     private int magnitude = 20;
-    
+
     @Override
     public void actionPerformed(ActionEvent e) {
         // TODO Auto-generated method stub
-        if(oldEdit == null){
+        if(imageEdit == null){
             JOptionPane.showMessageDialog(null,
                     "Charger une image",
                     "Erreur",
                     JOptionPane.ERROR_MESSAGE);
         }else{
-            oldEdit.translate(-magnitude, 0);
+            imageEdit.translate(-magnitude, 0);
         }
+
     }
     
 }

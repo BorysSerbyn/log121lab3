@@ -1,26 +1,18 @@
 package ca.borysserbyn.view;
 
-import ca.borysserbyn.controller.TranslateController;
 import ca.borysserbyn.controller.TranslateDownCommand;
 import ca.borysserbyn.controller.TranslateLeftCommand;
 import ca.borysserbyn.controller.TranslateRightCommand;
 import ca.borysserbyn.controller.TranslateUpCommand;
-import ca.borysserbyn.model.Thumbnail;
-import ca.borysserbyn.model.memento.Originator;
+import ca.borysserbyn.model.ImageEdit;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 
 public class TranslationPanel extends JPanel implements Observer {
-    private Thumbnail thumbnail;
-    private TranslateController translateController = new TranslateController(this);
 
     private JButton leftButton = new JButton("left");
     private JButton rightButton = new JButton("right");
@@ -30,19 +22,18 @@ public class TranslationPanel extends JPanel implements Observer {
 
     private JLabel imageLabel;
 
-    public TranslationPanel(Thumbnail thumbnail) {
+    public TranslationPanel() {
         super(new BorderLayout());
-        this.thumbnail = thumbnail;
         initialize();
     }
 
     public void update(Observable arg0, Object arg1) {
-        BufferedImage image = ((Originator) arg0).getImageEdit().getImage();
+        BufferedImage image = ImageEdit.getSingleton().getImage();
         imageLabel.setIcon(new ImageIcon(image));
     }
 
     public void initialize(){
-        BufferedImage image = Originator.getSingleton().getImageEdit().getImage();
+        BufferedImage image = ImageEdit.getSingleton().getImage();
         imageLabel = new JLabel(new ImageIcon(image));
         imageLabel.setPreferredSize(new Dimension(300, 250));
 
@@ -50,6 +41,7 @@ public class TranslationPanel extends JPanel implements Observer {
         rightButton.addActionListener(new TranslateRightCommand());
         upButton.addActionListener(new TranslateUpCommand());
         downButton.addActionListener(new TranslateDownCommand());
+
         toolBar.add(leftButton);
         toolBar.add(rightButton);
         toolBar.add(downButton);
@@ -60,9 +52,4 @@ public class TranslationPanel extends JPanel implements Observer {
 
         setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
     }
-
-    public Thumbnail getThumbnail() {
-        return thumbnail;
-    }
-
 }

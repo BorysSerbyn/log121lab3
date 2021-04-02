@@ -1,23 +1,22 @@
 package ca.borysserbyn.view;
 
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.util.Observable;
 import java.util.Observer;
 
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 import ca.borysserbyn.model.ImageEdit;
+import ca.borysserbyn.model.memento.Originator;
 
 public class ZoomPanel extends JPanel implements Observer {
-
-    private ImageEdit imageZoom;
     private JLabel imageLabel;
     private JButton undoZoom;
     private JButton redoZoom;
 
-    public ZoomPanel(ImageEdit imageZoom) {
+    public ZoomPanel() {
         super(new BorderLayout());
-        this.imageZoom = imageZoom;
         this.undoZoom = new JButton("undo");
         this.redoZoom = new JButton("redo");
         initialize();
@@ -25,8 +24,8 @@ public class ZoomPanel extends JPanel implements Observer {
     }
 
     public void initialize() {
-        BufferedImage image = Originator.getSingleton().getImageEdit().getImage();
-        imageLabel = new JLabel(new ImageIcon(imageZoom));
+        BufferedImage image = ImageEdit.getSingleton().getImage();
+        imageLabel = new JLabel(new ImageIcon(image));
         add(imageLabel, BorderLayout.NORTH);
         add(undoZoom, BorderLayout.SOUTH);
         add(redoZoom, BorderLayout.SOUTH);
@@ -40,8 +39,8 @@ public class ZoomPanel extends JPanel implements Observer {
          * TODO: si zoom et translate view sont independant, faire ca: image =
          * ((Originator) arg0).getImageEdit().getZoomedImage();
          */
-        imageZoom = ((Originator) arg0).getImageEdit().getImage();
-        imageLabel.setIcon(new ImageIcon(imageZoom));
+        BufferedImage image = ImageEdit.getSingleton().getImage();
+        imageLabel.setIcon(new ImageIcon(image));
     }
 
 }

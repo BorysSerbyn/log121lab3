@@ -9,7 +9,7 @@ import ca.borysserbyn.model.memento.Originator;
 
 public class ZoomInCommand implements MouseWheelListener {
 
-    ImageEdit imageZoom = Originator.getSingleton().getImageEdit();
+    private ImageEdit imageZoom = ImageEdit.getSingleton();
 
     @Override
     public void mouseWheelMoved(MouseWheelEvent e) {

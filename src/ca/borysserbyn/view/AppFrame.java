@@ -15,8 +15,8 @@ public class AppFrame extends JFrame {
     private TranslationPanel translationPanel;
     private PreviewPanel previewPanel;
     private Thumbnail thumbnail;
-    private Originator originator = Originator.getSingleton();
     private ImageEdit imageEdit;
+    private Originator originator;
 
     public AppFrame(Thumbnail thumbnail){
         super();
@@ -25,18 +25,21 @@ public class AppFrame extends JFrame {
     }
 
     public void initialize(){
-        ImageEdit initialEdit = new ImageEdit(thumbnail.getImage());
-        initialEdit.createEditedImage();
-        Originator.getSingleton().setImageEdit(initialEdit);
+        originator = new Originator();
+        imageEdit = new ImageEdit(thumbnail.getImage());
+        imageEdit.setOriginator(originator);
+        ImageEdit.setSingleton(imageEdit);
+        originator.setImageEdit(imageEdit);
+        imageEdit.createEditedImage();
+
         MenuToolBar menuFenetre = new MenuToolBar();
 		add(menuFenetre, BorderLayout.NORTH);
 
-        translationPanel = new TranslationPanel(thumbnail);
-        previewPanel = new PreviewPanel(thumbnail.getImage());
+        translationPanel = new TranslationPanel();
+        previewPanel = new PreviewPanel();
 
-        //thumbnail.addObserver(translationPanel);
-        originator.addObserver(previewPanel);
-        originator.addObserver(translationPanel);
+        imageEdit.addObserver(previewPanel);
+        imageEdit.addObserver(translationPanel);
 
         add(previewPanel, BorderLayout.LINE_START);
         add(translationPanel, BorderLayout.LINE_END);
