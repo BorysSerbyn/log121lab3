@@ -7,11 +7,11 @@ import java.util.Observable;
 public class Originator {
     private ImageEdit imageEdit;
 
-    public synchronized ImageEdit getImageEdit(){
+    public ImageEdit getImageEdit(){
         return imageEdit;
     }
 
     public void setImageEdit(ImageEdit imageEdit){
-        this.imageEdit = imageEdit;
+        //add old to caretaker
     }
 }

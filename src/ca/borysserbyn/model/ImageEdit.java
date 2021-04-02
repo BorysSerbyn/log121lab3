@@ -64,18 +64,18 @@ public class ImageEdit extends Observable implements Cloneable{
         this.zoomPercentage = zoomPercentage;
     }
 
-    public synchronized void translate(int deltaX, int deltaY) {
+    public void translate(int deltaX, int deltaY) {
         this.incrementX(deltaX);
         this.incrementY(deltaY);
         this.createEditedImage();
+    }
+
+    public synchronized void createEditedImage(){
+        image = thumbnail.getSubimage(translateX, translateY, zoomRect.width-20, zoomRect.height-20);
+        originator.setImageEdit(this);
 
         super.setChanged();
         super.notifyObservers();
-    }
-
-    public void createEditedImage(){
-        image = thumbnail.getSubimage(translateX, translateY, zoomRect.width-20, zoomRect.height-20);
-        originator.setImageEdit(this);
     }
 
     public BufferedImage createZoomedImage(){
