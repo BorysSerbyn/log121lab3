@@ -11,8 +11,8 @@ public class ImageEdit extends Observable implements Cloneable{
     private BufferedImage image;
     private int translateX = 0;
     private int translateY = 0;
-    private float zoomPercentage = 1;
-    private Rectangle zoomRect = new Rectangle(300, 250);
+    private double zoomPercentage = 1;
+    private Rectangle zoomRect;
     private static ImageEdit singleton;
     private static Originator originator;
 
@@ -34,11 +34,14 @@ public class ImageEdit extends Observable implements Cloneable{
 
     @Override
     public ImageEdit clone(){
-        return new ImageEdit(thumbnail, translateX, translateY, zoomPercentage);
+        ImageEdit imageEdit = new ImageEdit(thumbnail, translateX, translateY, zoomPercentage);
+        imageEdit.zoomRect = (Rectangle) zoomRect.clone();
+        return imageEdit;
     }
 
     public ImageEdit(BufferedImage image){
         this.image = image;
+        this.zoomRect = new Rectangle(image.getWidth(), image.getHeight());
         thumbnail = image;
     }
     public synchronized BufferedImage getImage(){
@@ -51,17 +54,19 @@ public class ImageEdit extends Observable implements Cloneable{
         this.translateX = imageEdit.translateX;
         this.translateY = imageEdit.translateY;
         this.zoomPercentage = imageEdit.zoomPercentage;
+        this.zoomRect = imageEdit.zoomRect;
 
         super.setChanged();
         super.notifyObservers();
     }
 
-    public ImageEdit(BufferedImage thumbnail, int translateX, int translateY, float zoomPercentage) {
+    public ImageEdit(BufferedImage thumbnail, int translateX, int translateY, double zoomPercentage) {
         this.image = thumbnail;
         this.thumbnail = thumbnail;
         this.translateX = translateX;
         this.translateY = translateY;
         this.zoomPercentage = zoomPercentage;
+        
     }
 
     public void translate(int deltaX, int deltaY) {
@@ -110,9 +115,22 @@ public class ImageEdit extends Observable implements Cloneable{
         this.translateY = translateY + delta;
     }
 
-    public void setZoom(float zoomPercentage) {
+    public void setZoom(double zoomPercentage) {
+        
         this.zoomPercentage = zoomPercentage;
-        zoomRect.height = (int)(zoomPercentage * image.getHeight());
-        zoomRect.width = (int)(zoomPercentage * image.getWidth());
+        double pourcentageHeight = zoomPercentage/100 * image.getHeight();
+        double pourcentageWidht = zoomPercentage/100 * image.getWidth();
+        //System.out.println("Pourcentage ajouter: " + pourcentageHeight + " " + pourcentageWidht);
+        //System.out.println("Dimension precedente: " + image.getHeight() + " " + image.getWidth());
+        int newHeight = (int)(zoomRect.height + (zoomPercentage/100 * zoomRect.height));
+        int newWidht = (int)(zoomRect.width + (zoomPercentage/100 * zoomRect.width));
+
+        //if (newHeight <= image.getHeight() && newWidht <= image.getWidth()) {
+            zoomRect.height = newHeight;
+            zoomRect.width = newWidht;
+            this.createEditedImage();
+            //System.out.println("Nouvelle dimension: " + newHeight + " " + newWidht);
+        //}
+        
     }
 }

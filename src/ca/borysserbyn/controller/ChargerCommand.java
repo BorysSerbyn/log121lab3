@@ -34,7 +34,7 @@ public class ChargerCommand implements ActionListener{
 			int returnValue = fileChooser.showOpenDialog(null);
 
 			if (returnValue == JFileChooser.APPROVE_OPTION) {
-				// TODO - Parser le fichier XML s�lectionn�
+				
 				File selectedFile = fileChooser.getSelectedFile();
 				System.out.println(selectedFile.getAbsolutePath());
                 BufferedImage image;
@@ -43,7 +43,7 @@ public class ChargerCommand implements ActionListener{
                     ImageEdit.getSingleton().setImageEdit(new ImageEdit(image));
                     imageEdit.createEditedImage();
                 } catch (IOException e1) {
-                    // TODO Auto-generated catch block
+                    
                     e1.printStackTrace();
                 }
                 

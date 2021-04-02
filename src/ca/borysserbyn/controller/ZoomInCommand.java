@@ -15,23 +15,11 @@ public class ZoomInCommand implements MouseWheelListener {
     public void mouseWheelMoved(MouseWheelEvent e) {
         
         
-        if(e.getWheelRotation() < 0){
+        double mouseWheelRotation = e.getPreciseWheelRotation();
+        //System.out.println(mouseWheelRotation);
+        imageZoom.setZoom(mouseWheelRotation);
 
-            System.out.println("zoom in");
-        }else{
-
-            System.out.println("zoom out");
-        }
-        
     }
-
-
-
-
-    
-
-    
-
 
 
 }

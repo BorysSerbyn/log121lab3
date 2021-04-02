@@ -29,13 +29,14 @@ public class TranslationPanel extends JPanel implements Observer {
 
     public void update(Observable arg0, Object arg1) {
         BufferedImage image = ImageEdit.getSingleton().getImage();
-        imageLabel.setIcon(new ImageIcon(image));
+        imageLabel.setIcon(new ImageIcon(image.getScaledInstance(imageLabel.getWidth(), imageLabel.getHeight(),
+        Image.SCALE_SMOOTH)));
     }
 
     public void initialize(){
         BufferedImage image = ImageEdit.getSingleton().getImage();
         imageLabel = new JLabel(new ImageIcon(image));
-        imageLabel.setPreferredSize(new Dimension(300, 250));
+        //imageLabel.setPreferredSize(new Dimension(300, 250));
 
         leftButton.addActionListener(new TranslateLeftCommand());
         rightButton.addActionListener(new TranslateRightCommand());

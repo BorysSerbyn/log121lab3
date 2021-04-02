@@ -11,15 +11,12 @@ import ca.borysserbyn.controller.ZoomInCommand;
 import ca.borysserbyn.model.ImageEdit;
 import ca.borysserbyn.model.memento.Originator;
 
-public class ZoomPanel extends JPanel implements Observer {
+public class ThumbnailPanel extends JPanel implements Observer {
     private JLabel imageLabel;
-    private JButton undoZoom;
-    private JButton redoZoom;
+    
 
-    public ZoomPanel() {
+    public ThumbnailPanel() {
         super(new BorderLayout());
-        this.undoZoom = new JButton("undo");
-        this.redoZoom = new JButton("redo");
         initialize();
 
     }
@@ -29,8 +26,6 @@ public class ZoomPanel extends JPanel implements Observer {
         imageLabel = new JLabel(new ImageIcon(image));
         this.addMouseWheelListener(new ZoomInCommand());
         add(imageLabel, BorderLayout.NORTH);
-        add(undoZoom, BorderLayout.SOUTH);
-        add(redoZoom, BorderLayout.SOUTH);
         //imageLabel.setPreferredSize(new Dimension(300, 250));
 
         setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
