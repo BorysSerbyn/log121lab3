@@ -3,6 +3,8 @@ package ca.borysserbyn.model;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
+import ca.borysserbyn.model.memento.Originator;
+
 public class ImageEdit implements Cloneable{
     private BufferedImage thumbnail;
     private BufferedImage image;
@@ -27,6 +29,15 @@ public class ImageEdit implements Cloneable{
         this.translateX = translateX;
         this.translateY = translateY;
         this.zoomPercentage = zoomPercentage;
+    }
+
+    public void translate(int deltaX, int deltaY) {
+
+        this.incrementX(deltaX);
+        this.incrementY(deltaY);
+
+        this.createEditedImage();
+        Originator.getSingleton().setImageEdit(this);
     }
 
     public void createEditedImage(){

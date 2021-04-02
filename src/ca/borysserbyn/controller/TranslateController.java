@@ -29,20 +29,5 @@ public class TranslateController {
         translate(0, magnitude);
     }
 
-    public void translate(int deltaX, int deltaY){
-        ImageEdit oldEdit = Originator.getSingleton().getImageEdit();
-        ImageEdit newEdit;
-
-        if(oldEdit == null){
-            Thumbnail thumbnail = transPanel.getThumbnail();
-            newEdit = new ImageEdit(thumbnail.getImage());
-        }else{
-            newEdit = oldEdit.clone();
-            newEdit.incrementX(deltaX);
-            newEdit.incrementY(deltaY);
-        }
-
-        newEdit.createEditedImage();
-        Originator.getSingleton().setImageEdit(newEdit);
-    }
+    
 }

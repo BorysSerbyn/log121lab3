@@ -16,6 +16,7 @@ public class AppFrame extends JFrame {
     private PreviewPanel previewPanel;
     private Thumbnail thumbnail;
     private Originator originator = Originator.getSingleton();
+    private ImageEdit imageEdit;
 
     public AppFrame(Thumbnail thumbnail){
         super();
@@ -27,6 +28,8 @@ public class AppFrame extends JFrame {
         ImageEdit initialEdit = new ImageEdit(thumbnail.getImage());
         initialEdit.createEditedImage();
         Originator.getSingleton().setImageEdit(initialEdit);
+        MenuToolBar menuFenetre = new MenuToolBar();
+		add(menuFenetre, BorderLayout.NORTH);
 
         translationPanel = new TranslationPanel(thumbnail);
         previewPanel = new PreviewPanel(thumbnail.getImage());

@@ -1,6 +1,10 @@
 package ca.borysserbyn.view;
 
 import ca.borysserbyn.controller.TranslateController;
+import ca.borysserbyn.controller.TranslateDownCommand;
+import ca.borysserbyn.controller.TranslateLeftCommand;
+import ca.borysserbyn.controller.TranslateRightCommand;
+import ca.borysserbyn.controller.TranslateUpCommand;
 import ca.borysserbyn.model.Thumbnail;
 import ca.borysserbyn.model.memento.Originator;
 
@@ -42,10 +46,10 @@ public class TranslationPanel extends JPanel implements Observer {
         imageLabel = new JLabel(new ImageIcon(image));
         imageLabel.setPreferredSize(new Dimension(300, 250));
 
-        leftButton.addActionListener(this::clickLeftButton);
-        rightButton.addActionListener(this::clickRightButton);
-        upButton.addActionListener(this::clickUpButton);
-        downButton.addActionListener(this::clickDownButton);
+        leftButton.addActionListener(new TranslateLeftCommand());
+        rightButton.addActionListener(new TranslateRightCommand());
+        upButton.addActionListener(new TranslateUpCommand());
+        downButton.addActionListener(new TranslateDownCommand());
         toolBar.add(leftButton);
         toolBar.add(rightButton);
         toolBar.add(downButton);
@@ -61,19 +65,4 @@ public class TranslationPanel extends JPanel implements Observer {
         return thumbnail;
     }
 
-    public void clickLeftButton(ActionEvent e){
-        translateController.translateLeft();
-    }
-
-    public void clickRightButton(ActionEvent e){
-        translateController.translateRight();
-    }
-
-    public void clickDownButton(ActionEvent e){
-        translateController.translateDown();
-    }
-
-    public void clickUpButton(ActionEvent e){
-        translateController.translateUp();
-    }
 }
