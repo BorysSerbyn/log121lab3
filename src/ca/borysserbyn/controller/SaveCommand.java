@@ -6,15 +6,16 @@ import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
 
 import ca.borysserbyn.model.ImageEdit;
+import ca.borysserbyn.model.memento.Originator;
 
 public class SaveCommand implements ActionListener{
     private ImageEdit imageEdit = ImageEdit.getSingleton();
-    private int magnitude = 20;
+    private Originator originator;
 
     @Override
     public void actionPerformed(ActionEvent e) {
         
-
+        
         
         
     }
