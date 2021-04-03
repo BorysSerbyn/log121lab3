@@ -7,6 +7,8 @@ import java.util.Observer;
 
 import javax.swing.*;
 
+import ca.borysserbyn.controller.CopyCommand;
+import ca.borysserbyn.controller.PasteCommand;
 import ca.borysserbyn.controller.ZoomInCommand;
 import ca.borysserbyn.model.ImageEdit;
 import ca.borysserbyn.model.memento.Originator;
@@ -31,12 +33,18 @@ public class ZoomPanel extends JPanel implements Observer {
         imageLabel = new JLabel(new ImageIcon(image));
         this.addMouseWheelListener(new ZoomInCommand());
 
-        add(imageLabel, BorderLayout.NORTH);
+        undoZoom.addActionListener(new UndoCommand());
+        redoZoom.addActionListener(new RedoCommand());
+        copyEdit.addActionListener(new CopyCommand());
+        pasteEdit.addActionListener(new PasteCommand());
+        
+        
         subButtonPanel.add(undoZoom);
         subButtonPanel.add(redoZoom);
         subButtonPanel.add(copyEdit);
         subButtonPanel.add(pasteEdit);
 
+        add(imageLabel, BorderLayout.NORTH);
         add(subButtonPanel, BorderLayout.PAGE_END);
         imageLabel.setPreferredSize(new Dimension(300, 250));
 
