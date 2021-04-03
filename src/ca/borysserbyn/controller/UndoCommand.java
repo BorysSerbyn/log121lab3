@@ -15,6 +15,16 @@ public class UndoCommand implements ActionListener{
     public void actionPerformed(ActionEvent e) {
         
 
+        if(imageEdit == null){
+            JOptionPane.showMessageDialog(null,
+                    "Charger une image avant de tenter de la copier",
+                    "Erreur",
+                    JOptionPane.ERROR_MESSAGE);
+        }else{
+
+            imageEdit.undoZoom();
+
+        }
         
         
     }

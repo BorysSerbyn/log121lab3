@@ -9,12 +9,13 @@ public class Originator implements Observer{
 
 
     private ImageEdit imageEdit;
+    private Caretaker caretaker = new Caretaker();
 
     public ImageEdit getImageEdit(){
         return imageEdit;
     }
 
-    //Met la valeur de l'imageEdit dnas l'article à la nouvelle valeur
+    //Met la valeur de l'imageEdit dnas l'image à la nouvelle valeur
     public void setImageEdit(ImageEdit newImageEdit){
         this.imageEdit = newImageEdit;
     }
@@ -25,20 +26,31 @@ public class Originator implements Observer{
         return new Memento(imageEdit);
     }
 
-    //Accède à l'imageEdit présentement dans le memento
-    public ImageEdit restoreFromMemento(Memento memento){
+    //Accède à l'imageEdit à partir du caretaker à l'indice precisé
+    public ImageEdit restoreFromMemento(int imageIndex){
 
-        imageEdit = memento.getSavedImage();
+        imageEdit = caretaker.getMemento(imageIndex).getSavedImage();
+        System.out.println(imageEdit.toString());
+
 
         return imageEdit;
 
     }
 
-    //Met la valeur de l'imageEdit dnas l'article à la nouvelle valeur
+    //Ajoute l'imageEdit courante à la liste de memento
+    public void addToCaretaker(){
+
+        caretaker.addMemento(storeInMemento());
+
+    }
+
+    //Met la valeur de l'imageEdit dans l'image à la nouvelle valeur
     @Override
     public void update(Observable o, Object arg) {
         
         
+
         
     }
+
 }

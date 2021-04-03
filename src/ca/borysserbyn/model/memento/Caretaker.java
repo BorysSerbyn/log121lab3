@@ -5,7 +5,9 @@ import java.util.ArrayList;
 public class Caretaker {
 
     //Liste des memento contenant des état d'image édité sauvegardé
-    ArrayList<Memento> savedImage = new ArrayList<Memento>();
+    ArrayList<Memento> savedImage;
+    
+    public Caretaker(){ savedImage = new ArrayList<Memento>(); }
 
     //Ajoute un memento à la liste
     public void addMemento(Memento m){ savedImage.add(m); }

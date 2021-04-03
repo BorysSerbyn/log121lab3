@@ -17,6 +17,9 @@ public class ImageEdit extends Observable implements Cloneable{
     private Rectangle zoomRect;
     private static ImageEdit singleton;
     private static Originator originator;
+    private int nbSavedImages = 0;
+    private int indiceImageCourante = 0;
+    
 
     public void setOriginator(Originator originator) {
         this.originator = originator;
@@ -81,6 +84,13 @@ public class ImageEdit extends Observable implements Cloneable{
         image = thumbnail.getSubimage(translateX, translateY, zoomRect.width-20, zoomRect.height-20);
         originator.setImageEdit(this);
 
+        //Ajoute l'imageEdit courante à la liste de caretaker et incrémente le nb d'image dans la liste
+        //ainsi que l'indice afin de pouvoir récupérer la dernière imageEdit lors d'un undo
+        originator.addToCaretaker();
+        indiceImageCourante++;
+        nbSavedImages++;
+        System.out.println("Image " + nbSavedImages + " sauvegardé");
+
         super.setChanged();
         super.notifyObservers();
     }
@@ -133,5 +143,33 @@ public class ImageEdit extends Observable implements Cloneable{
             
         //}
         
+    }
+
+    public void undoZoom(){
+
+        if (nbSavedImages >= 1) {
+            
+            System.out.println("Commande undo appuyé");
+            //Décrémente le nb d'article dans la liste de caretakers
+            nbSavedImages--;
+
+            //Récupérer la dernière image sauvegardé dans le caretaker
+            //Vrmnt sketch
+            originator.setImageEdit(originator.restoreFromMemento(indiceImageCourante-1));
+            
+
+        }
+
+    }
+
+    public void copyImageEdit(){
+
+        
+
+    }
+
+    public String toString(){
+
+        return "image #: " + indiceImageCourante;
     }
 }

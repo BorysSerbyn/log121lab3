@@ -5,11 +5,13 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JOptionPane;
 
+import ca.borysserbyn.model.memento.Caretaker;
+
 import ca.borysserbyn.model.ImageEdit;
 
 public class CopyCommand implements ActionListener{
     private ImageEdit imageEdit = ImageEdit.getSingleton();
-    private int magnitude = 20;
+    //private Caretaker caretaker = new Caretaker();
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -21,7 +23,8 @@ public class CopyCommand implements ActionListener{
                     JOptionPane.ERROR_MESSAGE);
         }else{
 
-            
+            imageEdit.copyImageEdit();
+
         }
 
          
