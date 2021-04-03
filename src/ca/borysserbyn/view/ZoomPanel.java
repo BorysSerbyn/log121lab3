@@ -31,7 +31,7 @@ public class ZoomPanel extends JPanel implements Observer {
         add(imageLabel, BorderLayout.NORTH);
         add(undoZoom, BorderLayout.SOUTH);
         add(redoZoom, BorderLayout.SOUTH);
-        //imageLabel.setPreferredSize(new Dimension(300, 250));
+        imageLabel.setPreferredSize(new Dimension(300, 250));
 
         setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
     }

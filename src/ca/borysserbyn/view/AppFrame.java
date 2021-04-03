@@ -14,6 +14,7 @@ import java.io.IOException;
 public class AppFrame extends JFrame {
     private TranslationPanel translationPanel;
     private ZoomPanel zoomPanel;
+    private ThumbnailPanel thumbnailPanel;
     private Thumbnail thumbnail;
     private ImageEdit imageEdit;
     private Originator originator;
@@ -37,12 +38,14 @@ public class AppFrame extends JFrame {
 
         translationPanel = new TranslationPanel();
         zoomPanel = new ZoomPanel();
+        thumbnailPanel = new ThumbnailPanel();
 
         imageEdit.addObserver(zoomPanel);
         imageEdit.addObserver(translationPanel);
 
         add(zoomPanel, BorderLayout.LINE_START);
         add(translationPanel, BorderLayout.LINE_END);
+        add(thumbnailPanel, BorderLayout.PAGE_END);
 
 
         pack();

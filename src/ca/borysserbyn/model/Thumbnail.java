@@ -17,6 +17,6 @@ public class Thumbnail extends Observable {
     public synchronized void setImage(BufferedImage image) {
         this.image = image;
         super.setChanged();
-        super.notifyObservers();
+        super.notifyObservers(this);
     }
 }

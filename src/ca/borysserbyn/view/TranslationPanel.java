@@ -36,7 +36,7 @@ public class TranslationPanel extends JPanel implements Observer {
     public void initialize(){
         BufferedImage image = ImageEdit.getSingleton().getImage();
         imageLabel = new JLabel(new ImageIcon(image));
-        //imageLabel.setPreferredSize(new Dimension(300, 250));
+        imageLabel.setPreferredSize(new Dimension(300, 250));
 
         leftButton.addActionListener(new TranslateLeftCommand());
         rightButton.addActionListener(new TranslateRightCommand());

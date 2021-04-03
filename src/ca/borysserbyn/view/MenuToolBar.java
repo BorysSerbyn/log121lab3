@@ -27,7 +27,7 @@ public class MenuToolBar extends JMenuBar {
 	}
 
 	/**
-	 * Cr�er le menu de Fichier
+	 * Creer le menu de Fichier
 	 */
 	private void ajouterMenuFichier() {
 		JMenu menuFichier = new JMenu(MENU_FICHIER_TITRE);

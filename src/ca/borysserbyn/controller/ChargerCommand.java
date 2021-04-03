@@ -19,7 +19,6 @@ import ca.borysserbyn.model.memento.Originator;
 
 public class ChargerCommand implements ActionListener{
     private ImageEdit imageEdit = ImageEdit.getSingleton();
-    private int magnitude = 20;
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -27,7 +26,7 @@ public class ChargerCommand implements ActionListener{
         JFileChooser fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
 			fileChooser.setDialogTitle("Selectionner une image");
 			fileChooser.setAcceptAllFileFilterUsed(false);
-			// Cr�er un filtre
+			// Creer un filtre
 			FileNameExtensionFilter filtre = new FileNameExtensionFilter(".jpg", "jpg");
 			fileChooser.addChoosableFileFilter(filtre);
 

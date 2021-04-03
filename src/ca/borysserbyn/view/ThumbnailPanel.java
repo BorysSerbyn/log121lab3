@@ -9,6 +9,7 @@ import javax.swing.*;
 
 import ca.borysserbyn.controller.ZoomInCommand;
 import ca.borysserbyn.model.ImageEdit;
+import ca.borysserbyn.model.Thumbnail;
 import ca.borysserbyn.model.memento.Originator;
 
 public class ThumbnailPanel extends JPanel implements Observer {
@@ -24,9 +25,8 @@ public class ThumbnailPanel extends JPanel implements Observer {
     public void initialize() {
         BufferedImage image = ImageEdit.getSingleton().getImage();
         imageLabel = new JLabel(new ImageIcon(image));
-        this.addMouseWheelListener(new ZoomInCommand());
         add(imageLabel, BorderLayout.NORTH);
-        //imageLabel.setPreferredSize(new Dimension(300, 250));
+        imageLabel.setPreferredSize(new Dimension(300, 250));
 
         setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
     }
@@ -36,7 +36,8 @@ public class ThumbnailPanel extends JPanel implements Observer {
          * TODO: si zoom et translate view sont independant, faire ca: image =
          * ((Originator) arg0).getImageEdit().getZoomedImage();
          */
-        BufferedImage image = ImageEdit.getSingleton().getImage();
+        Thumbnail thumbnail = (Thumbnail) arg1;
+        BufferedImage image = thumbnail.getImage();
         imageLabel.setIcon(new ImageIcon(image.getScaledInstance(imageLabel.getWidth(), imageLabel.getHeight(),
         Image.SCALE_SMOOTH)));
     }
