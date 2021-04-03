@@ -13,24 +13,31 @@ import ca.borysserbyn.model.memento.Originator;
 
 public class ZoomPanel extends JPanel implements Observer {
     private JLabel imageLabel;
-    private JButton undoZoom;
-    private JButton redoZoom;
+    private JButton undoZoom, redoZoom, copyEdit, pasteEdit;
 
     public ZoomPanel() {
         super(new BorderLayout());
         this.undoZoom = new JButton("undo");
         this.redoZoom = new JButton("redo");
+        this.copyEdit = new JButton("copy edit");
+        this.pasteEdit = new JButton("paste edit");
         initialize();
 
     }
 
     public void initialize() {
         BufferedImage image = ImageEdit.getSingleton().getImage();
+        JPanel subButtonPanel = new JPanel();
         imageLabel = new JLabel(new ImageIcon(image));
         this.addMouseWheelListener(new ZoomInCommand());
+
         add(imageLabel, BorderLayout.NORTH);
-        add(undoZoom, BorderLayout.SOUTH);
-        add(redoZoom, BorderLayout.SOUTH);
+        subButtonPanel.add(undoZoom);
+        subButtonPanel.add(redoZoom);
+        subButtonPanel.add(copyEdit);
+        subButtonPanel.add(pasteEdit);
+
+        add(subButtonPanel, BorderLayout.PAGE_END);
         imageLabel.setPreferredSize(new Dimension(300, 250));
 
         setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));

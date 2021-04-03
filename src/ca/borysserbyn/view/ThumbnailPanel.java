@@ -24,9 +24,11 @@ public class ThumbnailPanel extends JPanel implements Observer {
 
     public void initialize() {
         BufferedImage image = ImageEdit.getSingleton().getImage();
-        imageLabel = new JLabel(new ImageIcon(image));
-        add(imageLabel, BorderLayout.NORTH);
+        imageLabel = new JLabel();
         imageLabel.setPreferredSize(new Dimension(300, 250));
+        imageLabel.setIcon(new ImageIcon(image));
+        add(imageLabel, BorderLayout.NORTH);
+        
 
         setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
     }

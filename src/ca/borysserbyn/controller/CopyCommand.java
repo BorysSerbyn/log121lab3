@@ -7,7 +7,7 @@ import javax.swing.JOptionPane;
 
 import ca.borysserbyn.model.ImageEdit;
 
-public class SaveCommand implements ActionListener{
+public class CopyCommand implements ActionListener{
     private ImageEdit imageEdit = ImageEdit.getSingleton();
     private int magnitude = 20;
 

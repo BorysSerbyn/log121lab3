@@ -3,6 +3,8 @@ package ca.borysserbyn.model;
 import java.awt.image.BufferedImage;
 import java.util.Observable;
 
+
+@SuppressWarnings( "deprecation" )
 public class Thumbnail extends Observable {
     private BufferedImage image;
 

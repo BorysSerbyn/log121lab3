@@ -6,6 +6,8 @@ import java.util.Observable;
 
 import ca.borysserbyn.model.memento.Originator;
 
+
+@SuppressWarnings( "deprecation" )
 public class ImageEdit extends Observable implements Cloneable{
     private BufferedImage thumbnail;
     private BufferedImage image;
@@ -120,8 +122,7 @@ public class ImageEdit extends Observable implements Cloneable{
         this.zoomPercentage = zoomPercentage;
         double pourcentageHeight = zoomPercentage/100 * image.getHeight();
         double pourcentageWidht = zoomPercentage/100 * image.getWidth();
-        //System.out.println("Pourcentage ajouter: " + pourcentageHeight + " " + pourcentageWidht);
-        //System.out.println("Dimension precedente: " + image.getHeight() + " " + image.getWidth());
+        
         int newHeight = (int)(zoomRect.height + (zoomPercentage/100 * zoomRect.height));
         int newWidht = (int)(zoomRect.width + (zoomPercentage/100 * zoomRect.width));
 
@@ -129,7 +130,7 @@ public class ImageEdit extends Observable implements Cloneable{
             zoomRect.height = newHeight;
             zoomRect.width = newWidht;
             this.createEditedImage();
-            //System.out.println("Nouvelle dimension: " + newHeight + " " + newWidht);
+            
         //}
         
     }

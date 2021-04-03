@@ -42,11 +42,11 @@ public class AppFrame extends JFrame {
 
         imageEdit.addObserver(zoomPanel);
         imageEdit.addObserver(translationPanel);
+        thumbnail.addObserver(thumbnailPanel);
 
         add(zoomPanel, BorderLayout.LINE_START);
         add(translationPanel, BorderLayout.LINE_END);
         add(thumbnailPanel, BorderLayout.PAGE_END);
-
 
         pack();
         setResizable(false);
@@ -61,7 +61,6 @@ public class AppFrame extends JFrame {
     public Thumbnail getThumbnail() {
         return thumbnail;
     }
-
 
     public static void main(String[] args) {
         try {

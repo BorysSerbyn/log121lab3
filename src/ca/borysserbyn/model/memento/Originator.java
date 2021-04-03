@@ -14,4 +14,11 @@ public class Originator {
     public void setImageEdit(ImageEdit imageEdit){
         //add old to caretaker
     }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        
+
+        
+    }
 }
