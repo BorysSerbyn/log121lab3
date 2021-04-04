@@ -18,9 +18,7 @@ public class ImageEdit extends Observable implements Cloneable{
     private static ImageEdit singleton;
     private static Originator originator;
     private int nbSavedImages = 0;
-    private int indiceImageCourante = 0;
     
-
     public void setOriginator(Originator originator) {
         this.originator = originator;
     }
@@ -86,16 +84,16 @@ public class ImageEdit extends Observable implements Cloneable{
 
         //Ajoute l'imageEdit courante à la liste de caretaker et incrémente le nb d'image dans la liste
         //ainsi que l'indice afin de pouvoir récupérer la dernière imageEdit lors d'un undo
-        originator.addToCaretaker();
-        indiceImageCourante++;
-        nbSavedImages++;
-        System.out.println("Image " + nbSavedImages + " sauvegardé");
-
+        
+        
         super.setChanged();
         super.notifyObservers();
     }
 
     public BufferedImage createZoomedImage(){
+
+        System.out.println(nbSavedImages);
+        nbSavedImages++;
         return thumbnail.getSubimage(0, 0, zoomRect.width-20, zoomRect.height-20);
     }
 
@@ -145,6 +143,9 @@ public class ImageEdit extends Observable implements Cloneable{
         
     }
 
+    /**
+     * Methode contenant la logique permettant d'effectuer un retour à la dernière instance de l'image zoomé
+     */
     public void undoZoom(){
 
         if (nbSavedImages >= 1) {
@@ -154,10 +155,10 @@ public class ImageEdit extends Observable implements Cloneable{
             nbSavedImages--;
 
             //Récupérer la dernière image sauvegardé dans le caretaker
-            //Vrmnt sketch
-            originator.setImageEdit(originator.restoreFromMemento(indiceImageCourante-1));
+            setSingleton(originator.restoreFromMemento(nbSavedImages - 1));
+            System.out.println(nbSavedImages);
             
-
+            
         }
 
     }
@@ -168,8 +169,11 @@ public class ImageEdit extends Observable implements Cloneable{
 
     }
 
+
+    //---------------------------------TEST MEMENTO IMAGE--------------------------
+    
     public String toString(){
 
-        return "image #: " + indiceImageCourante;
+        return "image #: " + nbSavedImages;
     }
 }

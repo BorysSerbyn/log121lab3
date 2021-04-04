@@ -15,4 +15,17 @@ public class Caretaker {
     //Accesseur d'un memento dans la liste
     public Memento getMemento(int index){ return savedImage.get(index); }
 
+    //---------------------TEST CARETAKER--------------------------
+    public String printArray(){
+
+        String array = null;
+
+        for (Memento memento : savedImage) {
+            
+            array += memento.toString() + " ";
+        }
+
+        return array;
+    }
+
 }

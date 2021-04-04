@@ -9,7 +9,6 @@ import ca.borysserbyn.model.ImageEdit;
 
 public class UndoCommand implements ActionListener{
     private ImageEdit imageEdit = ImageEdit.getSingleton();
-    private int magnitude = 20;
 
     @Override
     public void actionPerformed(ActionEvent e) {

@@ -23,14 +23,14 @@ public class Originator implements Observer{
     //Crée un nouveau memento avec l'image courante
     public Memento storeInMemento(){
 
-        return new Memento(imageEdit);
+        return new Memento(imageEdit.clone());
     }
 
     //Accède à l'imageEdit à partir du caretaker à l'indice precisé
     public ImageEdit restoreFromMemento(int imageIndex){
 
         imageEdit = caretaker.getMemento(imageIndex).getSavedImage();
-        System.out.println(imageEdit.toString());
+        //System.out.println(imageEdit.toString());
 
 
         return imageEdit;
@@ -48,9 +48,18 @@ public class Originator implements Observer{
     @Override
     public void update(Observable o, Object arg) {
         
-        
-
-        
+        addToCaretaker();
+  
     }
+
+
+
+    public String printCaretaker(){
+
+
+        return caretaker.toString();
+    }
+
+
 
 }
