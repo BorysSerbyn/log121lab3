@@ -26,6 +26,7 @@ public class Thumbnail extends Observable {
         singleton = thumbnail;
     }
 
+    
     public synchronized BufferedImage getImage() {
         return image;
     }
