@@ -9,6 +9,13 @@
             "name": "Launch AppFrame",
             "request": "launch",
             "mainClass": "ca.borysserbyn.view.AppFrame",
+            "projectName": "log121lab3_ba480645"
+        },
+        {
+            "type": "java",
+            "name": "Launch AppFrame",
+            "request": "launch",
+            "mainClass": "ca.borysserbyn.view.AppFrame",
             "projectName": "log121lab3_3337fb06"
         },
         {

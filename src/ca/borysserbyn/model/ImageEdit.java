@@ -11,6 +11,7 @@ import ca.borysserbyn.model.memento.Originator;
 public class ImageEdit extends Observable implements Cloneable{
     private BufferedImage thumbnail;
     private BufferedImage image;
+    private BufferedImage imageZoom;
     private int translateX = 0;
     private int translateY = 0;
     private double zoomPercentage = 1;
@@ -46,6 +47,7 @@ public class ImageEdit extends Observable implements Cloneable{
 
     public ImageEdit(BufferedImage image){
         this.image = image;
+        this.imageZoom = image;
         this.zoomRect = new Rectangle(image.getWidth(), image.getHeight());
         thumbnail = image;
     }
@@ -53,8 +55,13 @@ public class ImageEdit extends Observable implements Cloneable{
         return image;
     }
 
+    public synchronized BufferedImage getImageZoom() {
+        return imageZoom;
+    }
+
     public synchronized void setImageEdit(ImageEdit imageEdit){
         this.image = imageEdit.image;
+        this.imageZoom = imageEdit.image;
         this.thumbnail = imageEdit.thumbnail;
         this.translateX = imageEdit.translateX;
         this.translateY = imageEdit.translateY;
@@ -67,6 +74,7 @@ public class ImageEdit extends Observable implements Cloneable{
 
     public ImageEdit(BufferedImage thumbnail, int translateX, int translateY, double zoomPercentage) {
         this.image = thumbnail;
+        this.imageZoom = thumbnail;
         this.thumbnail = thumbnail;
         this.translateX = translateX;
         this.translateY = translateY;
@@ -96,6 +104,8 @@ public class ImageEdit extends Observable implements Cloneable{
     }
 
     public BufferedImage createZoomedImage(){
+        super.setChanged();
+        super.notifyObservers();
         return thumbnail.getSubimage(0, 0, zoomRect.width-20, zoomRect.height-20);
     }
 
@@ -139,7 +149,7 @@ public class ImageEdit extends Observable implements Cloneable{
         //if (newHeight <= image.getHeight() && newWidht <= image.getWidth()) {
             zoomRect.height = newHeight;
             zoomRect.width = newWidht;
-            this.createEditedImage();
+            imageZoom = this.createZoomedImage();
             
         //}
         

@@ -67,7 +67,7 @@ public class ZoomPanel extends JPanel implements Observer {
          * TODO: si zoom et translate view sont independant, faire ca: image =
          * ((Originator) arg0).getImageEdit().getZoomedImage();
          */
-        BufferedImage image = ImageEdit.getSingleton().createZoomedImage();
+        BufferedImage image = ImageEdit.getSingleton().getImageZoom();
         imageLabel.setIcon(new ImageIcon(image.getScaledInstance(imageLabel.getWidth(), imageLabel.getHeight(),
         Image.SCALE_SMOOTH)));
     }
