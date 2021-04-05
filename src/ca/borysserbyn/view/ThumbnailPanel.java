@@ -7,10 +7,8 @@ import java.util.Observer;
 
 import javax.swing.*;
 
-import ca.borysserbyn.controller.ZoomInCommand;
 import ca.borysserbyn.model.ImageEdit;
 import ca.borysserbyn.model.Thumbnail;
-import ca.borysserbyn.model.memento.Originator;
 
 public class ThumbnailPanel extends JPanel implements Observer {
     private JLabel imageLabel;
@@ -23,13 +21,11 @@ public class ThumbnailPanel extends JPanel implements Observer {
     }
 
     public void initialize() {
-        BufferedImage image = ImageEdit.getSingleton().getImage();
+        BufferedImage image = ImageEdit.getSingleton().getEditedImage();
         imageLabel = new JLabel();
         imageLabel.setPreferredSize(new Dimension(300, 250));
         imageLabel.setIcon(new ImageIcon(image));
         add(imageLabel, BorderLayout.NORTH);
-        
-
         setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
     }
 

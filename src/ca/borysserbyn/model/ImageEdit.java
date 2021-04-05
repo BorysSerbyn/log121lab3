@@ -9,12 +9,12 @@ import ca.borysserbyn.model.memento.Originator;
 
 @SuppressWarnings( "deprecation" )
 public class ImageEdit extends Observable implements Cloneable{
-    private BufferedImage thumbnail;
-    private BufferedImage image;
-    private BufferedImage imageZoom;
+    private BufferedImage baseImage;
+    private BufferedImage editedImage;
+    private BufferedImage zoomedImage;
     private int translateX = 0;
     private int translateY = 0;
-    private double zoomPercentage = 1;
+    private double zoomPercentage = 100;
     private Rectangle zoomRect;
     private static ImageEdit singleton;
     private static Originator originator;
@@ -37,43 +37,49 @@ public class ImageEdit extends Observable implements Cloneable{
     }
 
     @Override
+    public String toString() {
+        return "ImageEdit{" +
+                "translateX=" + translateX +
+                ", translateY=" + translateY +
+                ", zoomPercentage=" + zoomPercentage +
+                '}';
+    }
+
+    @Override
     public ImageEdit clone(){
-        ImageEdit imageEdit = new ImageEdit(thumbnail, translateX, translateY, zoomPercentage);
+        ImageEdit imageEdit = new ImageEdit(baseImage, translateX, translateY, zoomPercentage);
         imageEdit.zoomRect = (Rectangle) zoomRect.clone();
         return imageEdit;
     }
 
-    public ImageEdit(BufferedImage image){
-        this.image = image;
-        this.imageZoom = image;
-        this.zoomRect = new Rectangle(image.getWidth(), image.getHeight());
-        thumbnail = image;
+    public ImageEdit(BufferedImage editedImage){
+        this.editedImage = editedImage;
+        this.zoomedImage = editedImage;
+        this.zoomRect = new Rectangle(editedImage.getWidth(), editedImage.getHeight());
+        baseImage = editedImage;
     }
-    public synchronized BufferedImage getImage(){
-        return image;
-    }
-
-    public synchronized BufferedImage getImageZoom() {
-        return imageZoom;
+    public synchronized BufferedImage getEditedImage(){
+        return editedImage;
     }
 
-    public synchronized void setImageEdit(ImageEdit imageEdit){
-        this.image = imageEdit.image;
-        this.imageZoom = imageEdit.image;
-        this.thumbnail = imageEdit.thumbnail;
+    public synchronized BufferedImage getZoomedImage() {
+        return zoomedImage;
+    }
+
+    public synchronized void loadImageEdit(ImageEdit imageEdit){
+        this.baseImage = imageEdit.baseImage;
         this.translateX = imageEdit.translateX;
         this.translateY = imageEdit.translateY;
         this.zoomPercentage = imageEdit.zoomPercentage;
         this.zoomRect = imageEdit.zoomRect;
 
-        super.setChanged();
-        super.notifyObservers();
+        createEditedImage();
     }
 
-    public ImageEdit(BufferedImage thumbnail, int translateX, int translateY, double zoomPercentage) {
-        this.image = thumbnail;
-        this.imageZoom = thumbnail;
-        this.thumbnail = thumbnail;
+    public ImageEdit(BufferedImage baseImage, int translateX, int translateY, double zoomPercentage) {
+        this.editedImage = baseImage;
+        this.zoomedImage = baseImage;
+        this.baseImage = baseImage;
         this.translateX = translateX;
         this.translateY = translateY;
         this.zoomPercentage = zoomPercentage;
@@ -87,25 +93,14 @@ public class ImageEdit extends Observable implements Cloneable{
     }
 
     public synchronized void createEditedImage(){
-        image = thumbnail.getSubimage(translateX, translateY, zoomRect.width-20, zoomRect.height-20);
-        originator.setImageEdit(this);
-
-        //Ajoute l'imageEdit courante à la liste de caretaker et incrémente le nb d'image dans la liste
-        //ainsi que l'indice afin de pouvoir récupérer la dernière imageEdit lors d'un undo
-        
-        
-        super.setChanged();
-        super.notifyObservers();
-    }
-
-    public BufferedImage createZoomedImage(){
-        super.setChanged();
-        super.notifyObservers();
-
-        System.out.println(nbSavedImages);
         nbSavedImages++;
-        return thumbnail.getSubimage(0, 0, zoomRect.width-20, zoomRect.height-20);
+        editedImage = baseImage.getSubimage(translateX, translateY, zoomRect.width, zoomRect.height);
+        zoomedImage = baseImage.getSubimage(0, 0, zoomRect.width, zoomRect.height);
+
+        super.setChanged();
+        super.notifyObservers();
     }
+
 
     public int getTranslateX() {
         return translateX;
@@ -119,7 +114,7 @@ public class ImageEdit extends Observable implements Cloneable{
         if(translateX+delta < 0){
             return;
         }
-        if(translateX+delta+zoomRect.width > thumbnail.getWidth()){
+        if(translateX+delta+zoomRect.width > baseImage.getWidth()){
             return;
         }
         this.translateX = translateX + delta;
@@ -129,62 +124,37 @@ public class ImageEdit extends Observable implements Cloneable{
         if(translateY+delta < 0){
             return;
         }
-        if(translateY+delta+zoomRect.height > thumbnail.getHeight()){
+        if(translateY+delta+zoomRect.height > baseImage.getHeight()){
             return;
         }
         this.translateY = translateY + delta;
     }
 
-    public void setZoom(double zoomPercentage) {
-        
-        this.zoomPercentage = zoomPercentage;
-        double pourcentageHeight = zoomPercentage/100 * image.getHeight();
-        double pourcentageWidht = zoomPercentage/100 * image.getWidth();
-        
-        int newHeight = (int)(zoomRect.height + (zoomPercentage/100 * zoomRect.height));
-        int newWidht = (int)(zoomRect.width + (zoomPercentage/100 * zoomRect.width));
+    public void zoom(double zoomDirection) {
+        zoomDirection = zoomDirection * 2;
 
-        //if (newHeight <= image.getHeight() && newWidht <= image.getWidth()) {
-            zoomRect.height = newHeight;
-            zoomRect.width = newWidht;
-            imageZoom = this.createZoomedImage();
+        if (zoomDirection + zoomPercentage <= 100) {
+            zoomPercentage += zoomDirection;
+            zoomRect.height = (int)(zoomPercentage/100 * baseImage.getHeight());
+            zoomRect.width = (int)(zoomPercentage/100 * baseImage.getWidth());
             this.createEditedImage();
-            
-        //}
-        
+        }
     }
 
     /**
      * Methode contenant la logique permettant d'effectuer un retour à la dernière instance de l'image zoomé
      */
     public void undoZoom(){
-
         if (nbSavedImages >= 1) {
-            
-            System.out.println("Commande undo appuyé");
             //Décrémente le nb d'article dans la liste de caretakers
             nbSavedImages--;
-
             //Récupérer la dernière image sauvegardé dans le caretaker
-            setSingleton(originator.restoreFromMemento(nbSavedImages - 1));
-            System.out.println(nbSavedImages);
-            
-            
+            ImageEdit imageToRestore = originator.restoreFromMemento(nbSavedImages - 1);
+            loadImageEdit(imageToRestore);
         }
-
     }
 
     public void copyImageEdit(){
 
-        
-
-    }
-
-
-    //---------------------------------TEST MEMENTO IMAGE--------------------------
-    
-    public String toString(){
-
-        return "image #: " + nbSavedImages;
     }
 }

@@ -5,24 +5,27 @@ import java.util.ArrayList;
 public class Caretaker {
 
     //Liste des memento contenant des état d'image édité sauvegardé
-    ArrayList<Memento> savedImage;
+    ArrayList<Memento> savedImages;
     
-    public Caretaker(){ savedImage = new ArrayList<Memento>(); }
+    public Caretaker(){ savedImages = new ArrayList<Memento>(); }
 
     //Ajoute un memento à la liste
-    public void addMemento(Memento m){ savedImage.add(m); }
+    public void addMemento(Memento m){ savedImages.add(m); }
 
     //Accesseur d'un memento dans la liste
-    public Memento getMemento(int index){ return savedImage.get(index); }
+    public Memento getMemento(int index){ return savedImages.get(index); }
+
+    public ArrayList<Memento> getSavedImages() {
+        return savedImages;
+    }
 
     //---------------------TEST CARETAKER--------------------------
     public String printArray(){
 
         String array = null;
 
-        for (Memento memento : savedImage) {
-            
-            array += memento.toString() + " ";
+        for (Memento memento : savedImages) {
+            array += memento.toString() + "\n";
         }
 
         return array;

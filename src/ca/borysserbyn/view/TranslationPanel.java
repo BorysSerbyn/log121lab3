@@ -13,14 +13,15 @@ import java.util.Observable;
 import java.util.Observer;
 
 public class TranslationPanel extends JPanel implements Observer {
-
     private JButton leftButton = new JButton("left");
     private JButton rightButton = new JButton("right");
     private JButton upButton = new JButton("up");
     private JButton downButton = new JButton("down");
     private JToolBar toolBar = new JToolBar();
-
     private JLabel imageLabel;
+
+    private int imageWidth = 325;
+    private int imageHeight = 375;
 
     public TranslationPanel() {
         super(new BorderLayout());
@@ -28,15 +29,16 @@ public class TranslationPanel extends JPanel implements Observer {
     }
 
     public void update(Observable arg0, Object arg1) {
-        BufferedImage image = ImageEdit.getSingleton().getImage();
-        imageLabel.setIcon(new ImageIcon(image.getScaledInstance(imageLabel.getWidth(), imageLabel.getHeight(),
-        Image.SCALE_SMOOTH)));
+        BufferedImage image = ImageEdit.getSingleton().getEditedImage();
+        ImageIcon imageIcon = new ImageIcon(image.getScaledInstance(imageWidth, imageHeight, Image.SCALE_SMOOTH));
+        imageLabel.setIcon(imageIcon);
     }
 
     public void initialize(){
-        BufferedImage image = ImageEdit.getSingleton().getImage();
-        imageLabel = new JLabel(new ImageIcon(image));
-        imageLabel.setPreferredSize(new Dimension(300, 250));
+        imageLabel = new JLabel();
+        BufferedImage image = ImageEdit.getSingleton().getZoomedImage();
+        ImageIcon imageIcon = new ImageIcon(image.getScaledInstance(imageWidth, imageHeight, Image.SCALE_SMOOTH));
+        imageLabel.setIcon(imageIcon);
 
         leftButton.addActionListener(new TranslateLeftCommand());
         rightButton.addActionListener(new TranslateRightCommand());
