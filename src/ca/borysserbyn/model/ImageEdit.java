@@ -190,8 +190,10 @@ public class ImageEdit extends Observable implements Cloneable, Serializable {
      */
     public void redoZoom(){
 
-        if((nbSavedImages) > indiceImage){
+        
+        if((nbSavedImages - 1) > indiceImage){
 
+            
             //Incrémente l'indice de l'image affiché
             indiceImage++;
 
