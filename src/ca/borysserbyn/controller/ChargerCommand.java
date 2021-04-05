@@ -11,15 +11,18 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+import ca.borysserbyn.FileUtils;
 import ca.borysserbyn.model.ImageEdit;
+import ca.borysserbyn.model.memento.Originator;
 
 public class ChargerCommand implements ActionListener{
     private ImageEdit imageEdit = ImageEdit.getSingleton();
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        FileUtils.readWithFileChooser();
         
-        JFileChooser fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+        /*JFileChooser fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
 			fileChooser.setDialogTitle("Selectionner une image");
 			fileChooser.setAcceptAllFileFilterUsed(false);
 			// Creer un filtre
@@ -42,7 +45,7 @@ public class ChargerCommand implements ActionListener{
                     e1.printStackTrace();
                 }
                 
-			}
+			}*/
     }
     
 }

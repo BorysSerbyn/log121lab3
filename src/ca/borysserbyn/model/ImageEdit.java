@@ -2,16 +2,22 @@ package ca.borysserbyn.model;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.Observable;
 
 import ca.borysserbyn.model.memento.Originator;
 
+import javax.imageio.ImageIO;
+
 
 @SuppressWarnings( "deprecation" )
-public class ImageEdit extends Observable implements Cloneable{
-    private BufferedImage baseImage;
-    private BufferedImage editedImage;
-    private BufferedImage zoomedImage;
+public class ImageEdit extends Observable implements Cloneable, Serializable {
+    private transient BufferedImage baseImage;
+    private transient BufferedImage editedImage;
+    private transient BufferedImage zoomedImage;
     private int translateX = 0;
     private int translateY = 0;
     private double zoomPercentage = 100;
@@ -19,6 +25,21 @@ public class ImageEdit extends Observable implements Cloneable{
     private static ImageEdit singleton;
     private static Originator originator;
     private int nbSavedImages = 0;
+
+    public void writeImageEdit(ObjectOutputStream out) throws IOException {
+        out.writeObject(this);
+        ImageIO.write(baseImage, "png", out);
+        ImageIO.write(editedImage, "png", out);
+        ImageIO.write(zoomedImage, "png", out);
+    }
+
+    public void readImageEdit(ObjectInputStream in) throws  IOException, ClassNotFoundException{
+        ImageEdit readImage = (ImageEdit) in.readObject();
+        readImage.baseImage = ImageIO.read(in);
+        readImage.editedImage = ImageIO.read(in);
+        readImage.zoomedImage = ImageIO.read(in);
+        loadImageEdit(readImage);
+    }
     
     public void setOriginator(Originator originator) {
         this.originator = originator;
