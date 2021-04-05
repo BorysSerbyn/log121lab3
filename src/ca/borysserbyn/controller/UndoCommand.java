@@ -13,7 +13,6 @@ public class UndoCommand implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         
-
         if(imageEdit == null){
             JOptionPane.showMessageDialog(null,
                     "Charger une image avant de tenter de la copier",
@@ -24,8 +23,7 @@ public class UndoCommand implements ActionListener{
             imageEdit.undoZoom();
 
         }
-        
-        
+          
     }
     
 }

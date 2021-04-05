@@ -9,14 +9,22 @@ import ca.borysserbyn.model.ImageEdit;
 
 public class RedoCommand implements ActionListener{
     private ImageEdit imageEdit = ImageEdit.getSingleton();
-    private int magnitude = 20;
+    
 
     @Override
     public void actionPerformed(ActionEvent e) {
         
+        if(imageEdit == null){
+            JOptionPane.showMessageDialog(null,
+                    "Charger une image avant de tenter de la copier",
+                    "Erreur",
+                    JOptionPane.ERROR_MESSAGE);
+        }else{
 
-        
-        
+            imageEdit.redoZoom();
+
+        }
+          
     }
     
 }

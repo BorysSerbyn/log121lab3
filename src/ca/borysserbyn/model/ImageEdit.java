@@ -25,6 +25,7 @@ public class ImageEdit extends Observable implements Cloneable, Serializable {
     private static ImageEdit singleton;
     private static Originator originator;
     private int nbSavedImages = 0;
+    private int indiceImage = 0;
 
     public void writeImageEdit(ObjectOutputStream out) throws IOException {
         out.writeObject(this);
@@ -157,6 +158,7 @@ public class ImageEdit extends Observable implements Cloneable, Serializable {
 
             //log changes
             nbSavedImages++;
+            indiceImage++;
             originator.addToCaretaker();
 
             zoomPercentage += zoomDirection;
@@ -167,14 +169,14 @@ public class ImageEdit extends Observable implements Cloneable, Serializable {
     }
 
     /**
-     * Methode contenant la logique permettant d'effectuer un retour à la dernière instance de l'image zoomé
+     * Méthode contenant le modèle permettant d'effectuer un retour à la dernière instance de l'image zoomé
      */
     public void undoZoom(){
-        if (nbSavedImages >= 1) {
+        if (indiceImage >= 1) {
             //Décrémente le nb d'article dans la liste de caretakers
-            nbSavedImages--;
+            indiceImage--;
             //Récupérer la dernière image sauvegardé dans le caretaker
-            ImageEdit imageToRestore = originator.restoreFromMemento(nbSavedImages - 1);
+            ImageEdit imageToRestore = originator.restoreFromMemento(indiceImage - 1);
             loadImageEdit(imageToRestore);
         }
     }
@@ -182,4 +184,29 @@ public class ImageEdit extends Observable implements Cloneable, Serializable {
     public void copyImageEdit(){
 
     }
+
+    /**
+     * Méthode contenant le modèle permettant d'effectuer un retour à la dernière instance de l'image zoomé
+     */
+    public void redoZoom(){
+
+        if((nbSavedImages) > indiceImage){
+
+            //Incrémente l'indice de l'image affiché
+            indiceImage++;
+
+            //Recupère l'image la plus récente et l'affiche
+            ImageEdit imageToRestore = originator.restoreFromMemento(indiceImage);
+            loadImageEdit(imageToRestore);
+
+        }
+
+        
+    }
+
+    public int getNbSavedImages() {
+        return nbSavedImages;
+    }
+
+
 }
