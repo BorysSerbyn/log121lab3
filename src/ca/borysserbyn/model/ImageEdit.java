@@ -152,19 +152,27 @@ public class ImageEdit extends Observable implements Cloneable, Serializable {
     }
 
     public void zoom(double zoomDirection) {
+
         zoomDirection = zoomDirection * 2;
 
-        if (zoomDirection + zoomPercentage <= 100) {
+        //int newHeight = (int)(zoomRect.height + (zoomPercentage/100 * zoomRect.height));
 
+        int newHeight = (int)((zoomPercentage + zoomDirection)/100 * baseImage.getHeight());
+        int newWidth = (int)((zoomPercentage + zoomDirection)/100 * baseImage.getWidth());
+
+        int maxWidth = baseImage.getWidth() - translateX;
+        int maxHeight = baseImage.getHeight() - translateY;
+
+        if (newWidth <= maxWidth && newHeight <= maxHeight) {
             //log changes
             nbSavedImages++;
             indiceImage++;
             originator.addToCaretaker();
 
             zoomPercentage += zoomDirection;
-            zoomRect.height = (int)(zoomPercentage/100 * baseImage.getHeight());
-            zoomRect.width = (int)(zoomPercentage/100 * baseImage.getWidth());
-            this.createEditedImage();
+            zoomRect.height = newHeight;
+            zoomRect.width = newWidth;
+            createEditedImage();
         }
     }
 
