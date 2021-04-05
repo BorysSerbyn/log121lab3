@@ -40,8 +40,6 @@ public class AppFrame extends JFrame {
         zoomPanel = new ZoomPanel();
         thumbnailPanel = new ThumbnailPanel();
 
-
-        imageEdit.addObserver(originator);
         imageEdit.addObserver(zoomPanel);
         imageEdit.addObserver(translationPanel);
         thumbnail.addObserver(thumbnailPanel);

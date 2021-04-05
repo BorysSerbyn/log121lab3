@@ -5,8 +5,7 @@ import ca.borysserbyn.model.ImageEdit;
 import java.util.Observable;
 import java.util.Observer;
 
-public class Originator implements Observer {
-
+public class Originator {
 
     private ImageEdit imageEdit;
     private Caretaker caretaker = new Caretaker();
@@ -37,15 +36,8 @@ public class Originator implements Observer {
     }
 
     //Met la valeur de l'imageEdit dans l'image à la nouvelle valeur
-    @Override
-    public void update(Observable o, Object arg) {
-        addToCaretaker();
-    }
-
 
     public String printCaretaker() {
-
-
         return caretaker.toString();
     }
 

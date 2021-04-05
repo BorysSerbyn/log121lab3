@@ -93,7 +93,6 @@ public class ImageEdit extends Observable implements Cloneable{
     }
 
     public synchronized void createEditedImage(){
-        nbSavedImages++;
         editedImage = baseImage.getSubimage(translateX, translateY, zoomRect.width, zoomRect.height);
         zoomedImage = baseImage.getSubimage(0, 0, zoomRect.width, zoomRect.height);
 
@@ -134,6 +133,11 @@ public class ImageEdit extends Observable implements Cloneable{
         zoomDirection = zoomDirection * 2;
 
         if (zoomDirection + zoomPercentage <= 100) {
+
+            //log changes
+            nbSavedImages++;
+            originator.addToCaretaker();
+
             zoomPercentage += zoomDirection;
             zoomRect.height = (int)(zoomPercentage/100 * baseImage.getHeight());
             zoomRect.width = (int)(zoomPercentage/100 * baseImage.getWidth());
