@@ -19,6 +19,15 @@ public class Originator {
         this.imageEdit = newImageEdit;
     }
 
+    //Supprime l'entierete du ArrayList
+    public void clearCaretaker(){
+        caretaker.savedImages.clear();
+    }
+
+    public boolean originatorIsEmpty(){
+        return caretaker.savedImages.isEmpty();
+    }
+
     //Crée un nouveau memento avec l'image courante
     public Memento storeInMemento() {
 

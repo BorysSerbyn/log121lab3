@@ -6,6 +6,9 @@ import ca.borysserbyn.model.Thumbnail;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.filechooser.FileSystemView;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -18,6 +21,7 @@ public class AppFrame extends JFrame {
     private Thumbnail thumbnail;
     private ImageEdit imageEdit;
     private Originator originator;
+    private MenuToolBar menuFenetre;
 
     public AppFrame(Thumbnail thumbnail){
         super();
@@ -30,10 +34,11 @@ public class AppFrame extends JFrame {
         imageEdit = new ImageEdit(thumbnail.getImage());
         imageEdit.setOriginator(originator);
         ImageEdit.setSingleton(imageEdit);
+        Thumbnail.setSingleton(thumbnail);
         originator.setImageEdit(imageEdit);
         imageEdit.createEditedImage();
 
-        MenuToolBar menuFenetre = new MenuToolBar();
+        menuFenetre = new MenuToolBar();
 		add(menuFenetre, BorderLayout.NORTH);
 
         translationPanel = new TranslationPanel();
@@ -64,8 +69,22 @@ public class AppFrame extends JFrame {
 
     public static void main(String[] args) {
         try {
-            BufferedImage image = ImageIO.read(new File("./images/cool_image.jpg"));
-            AppFrame appFrame = new AppFrame(new Thumbnail(image));
+            JFileChooser fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+            fileChooser.setDialogTitle("Selectionner une image");
+			fileChooser.setAcceptAllFileFilterUsed(false);
+			// Creer un filtre
+			FileNameExtensionFilter filtre = new FileNameExtensionFilter(".jpg", "jpg");
+		    fileChooser.addChoosableFileFilter(filtre);
+			int returnValue = fileChooser.showOpenDialog(null);
+
+			if (returnValue == JFileChooser.APPROVE_OPTION) {
+				
+				File selectedFile = fileChooser.getSelectedFile();
+                BufferedImage image = ImageIO.read(selectedFile);
+                //Garder cette ligne pour tester sans le file chooser donc plus rapidement l'enlever avant de faire le final commit
+                //BufferedImage image = ImageIO.read(new File("./images/cool_image.jpg"));
+                AppFrame appFrame = new AppFrame(new Thumbnail(image));
+            }
         } catch (IOException ex) {
             ex.printStackTrace();
         }

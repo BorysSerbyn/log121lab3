@@ -8,6 +8,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Observable;
 
+import ca.borysserbyn.Position;
 import ca.borysserbyn.model.memento.Originator;
 
 import javax.imageio.ImageIO;
@@ -20,6 +21,7 @@ public class ImageEdit extends Observable implements Cloneable, Serializable {
     private transient BufferedImage zoomedImage;
     private int translateX = 0;
     private int translateY = 0;
+    private Position curseur = new Position(0, 0);
     private double zoomPercentage = 100;
     private Rectangle zoomRect;
     private static ImageEdit singleton;
@@ -74,11 +76,13 @@ public class ImageEdit extends Observable implements Cloneable, Serializable {
         return imageEdit;
     }
 
-    public ImageEdit(BufferedImage editedImage){
+    public ImageEdit(BufferedImage editedImage) {
+
         this.editedImage = editedImage;
         this.zoomedImage = editedImage;
         this.zoomRect = new Rectangle(editedImage.getWidth(), editedImage.getHeight());
         baseImage = editedImage;
+        
     }
     public synchronized BufferedImage getEditedImage(){
         return editedImage;
@@ -88,12 +92,20 @@ public class ImageEdit extends Observable implements Cloneable, Serializable {
         return zoomedImage;
     }
 
+    public synchronized Originator getOriginator(){
+        return originator;
+    }
+
     public synchronized void loadImageEdit(ImageEdit imageEdit){
         this.baseImage = imageEdit.baseImage;
         this.translateX = imageEdit.translateX;
         this.translateY = imageEdit.translateY;
         this.zoomPercentage = imageEdit.zoomPercentage;
         this.zoomRect = imageEdit.zoomRect;
+        //this.editedImage = imageEdit.editedImage;
+       // this.zoomedImage = imageEdit.zoomedImage;
+       // super.setChanged();
+        //super.notifyObservers();
 
         createEditedImage();
     }
@@ -112,12 +124,16 @@ public class ImageEdit extends Observable implements Cloneable, Serializable {
         this.incrementX(deltaX);
         this.incrementY(deltaY);
         this.createEditedImage();
+        nbSavedImages++;
+        indiceImage++;
+        originator.addToCaretaker();
     }
 
     public synchronized void createEditedImage(){
         editedImage = baseImage.getSubimage(translateX, translateY, zoomRect.width, zoomRect.height);
-        zoomedImage = baseImage.getSubimage(0, 0, zoomRect.width, zoomRect.height);
-
+        zoomedImage = baseImage.getSubimage(curseur.getX(), curseur.getY(), zoomRect.width, zoomRect.height);
+        
+        //originator.addToCaretaker();
         super.setChanged();
         super.notifyObservers();
     }
@@ -129,6 +145,10 @@ public class ImageEdit extends Observable implements Cloneable, Serializable {
 
     public int getTranslateY() {
         return translateY;
+    }
+
+    public Position getCurseur(){
+        return curseur;
     }
 
     public void incrementX(int delta) {
@@ -165,14 +185,26 @@ public class ImageEdit extends Observable implements Cloneable, Serializable {
 
         if (newWidth <= maxWidth && newHeight <= maxHeight) {
             //log changes
+            if(zoomDirection>0){
+                
+                int x = (int) ((Math.log(0.1/translateX))/Math.log(zoomDirection));
+                int y = (int) ((Math.log(0.1/translateY))/Math.log(zoomDirection));
+                //if(translateX > 3 && translateY > 3){
+                    translateX += translateX/x;
+                    translateY += translateY/y;
+                    
+                //}                
+                
+            }
+            
+            
             nbSavedImages++;
             indiceImage++;
-            originator.addToCaretaker();
-
             zoomPercentage += zoomDirection;
             zoomRect.height = newHeight;
             zoomRect.width = newWidth;
             createEditedImage();
+            originator.addToCaretaker();
         }
     }
 

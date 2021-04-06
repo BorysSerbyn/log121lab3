@@ -10,7 +10,7 @@ public abstract class FileUtils {
     private static File savedWipsDir = new File("wip");
 
     public static void writeWithFileChooser(ImageEdit x) {
-        try{
+        try {
             JFileChooser fileChooser = new JFileChooser(savedWipsDir);
             if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
                 FileOutputStream fileOut = new FileOutputStream(fileChooser.getSelectedFile());
@@ -20,28 +20,25 @@ public abstract class FileUtils {
                 fileOut.close();
                 System.out.println("Serialized data saved.");
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             System.out.println("Cant write object");
             e.printStackTrace();
         }
     }
 
-    public static void readWithFileChooser(){
-        try{
-            JFileChooser fileChooser = new JFileChooser(savedWipsDir);
-            if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
-                FileInputStream fileIn = new FileInputStream(fileChooser.getSelectedFile());
-                ObjectInputStream in = new ObjectInputStream(fileIn);
-                ImageEdit.getSingleton().readImageEdit(in);
-                in.close();
-                fileIn.close();
-                System.out.println("Serialized data loaded.");
-            }
-        }catch(Exception e){
+    public static void readWithFileChooser(FileInputStream fileIn) {
+        try {
+
+            ObjectInputStream in = new ObjectInputStream(fileIn);
+            ImageEdit.getSingleton().readImageEdit(in);
+            in.close();
+            fileIn.close();
+            System.out.println("Serialized data loaded.");
+
+        } catch (Exception e) {
             System.out.println("Cant read object");
             e.printStackTrace();
         }
     }
-
 
 }

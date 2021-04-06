@@ -14,6 +14,8 @@ public class ZoomInCommand implements MouseWheelListener {
         
         
         double mouseWheelRotation = e.getPreciseWheelRotation();
+        //imageZoom.getCurseur().setX(e.getX());
+        //imageZoom.getCurseur().setY(e.getY());
         //System.out.println(mouseWheelRotation);
         imageZoom.zoom(mouseWheelRotation);
 
