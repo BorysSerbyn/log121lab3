@@ -4,15 +4,10 @@ import ca.borysserbyn.model.ImageEdit;
 import ca.borysserbyn.model.memento.Originator;
 import ca.borysserbyn.model.Thumbnail;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.filechooser.FileSystemView;
+
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
 public class AppFrame extends JFrame {
     private TranslationPanel translationPanel;
