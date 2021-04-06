@@ -25,8 +25,6 @@ public class ImageEdit extends Observable implements Cloneable, Serializable {
     private Rectangle zoomRect;
     private static ImageEdit singleton;
     private static Originator originator;
-    private int nbSavedImages = 0;
-    private int indiceImage = 0;
 
     public void writeImageEdit(ObjectOutputStream out) throws IOException {
         out.writeObject(this);
@@ -102,11 +100,6 @@ public class ImageEdit extends Observable implements Cloneable, Serializable {
         this.translateY = imageEdit.translateY;
         this.zoomPercentage = imageEdit.zoomPercentage;
         this.zoomRect = imageEdit.zoomRect;
-        //this.editedImage = imageEdit.editedImage;
-       // this.zoomedImage = imageEdit.zoomedImage;
-       // super.setChanged();
-        //super.notifyObservers();
-
         createEditedImage();
     }
 
@@ -117,23 +110,18 @@ public class ImageEdit extends Observable implements Cloneable, Serializable {
         this.translateX = translateX;
         this.translateY = translateY;
         this.zoomPercentage = zoomPercentage;
-        
     }
 
     public void translate(int deltaX, int deltaY) {
         this.incrementX(deltaX);
         this.incrementY(deltaY);
         this.createEditedImage();
-        nbSavedImages++;
-        indiceImage++;
         originator.addToCaretaker();
     }
 
     public synchronized void createEditedImage(){
         editedImage = baseImage.getSubimage(translateX, translateY, zoomRect.width, zoomRect.height);
         zoomedImage = baseImage.getSubimage(0,0 , zoomRect.width, zoomRect.height);
-        
-        //originator.addToCaretaker();
         super.setChanged();
         super.notifyObservers();
     }
@@ -168,10 +156,7 @@ public class ImageEdit extends Observable implements Cloneable, Serializable {
     }
 
     public void zoom(double zoomDirection) {
-
         zoomDirection = zoomDirection * 2;
-
-        //int newHeight = (int)(zoomRect.height + (zoomPercentage/100 * zoomRect.height));
 
         int newHeight = (int)((zoomPercentage + zoomDirection)/100 * baseImage.getHeight());
         int newWidth = (int)((zoomPercentage + zoomDirection)/100 * baseImage.getWidth());
@@ -180,40 +165,19 @@ public class ImageEdit extends Observable implements Cloneable, Serializable {
         int maxHeight = baseImage.getHeight() - translateY;
 
         if (newWidth <= maxWidth && newHeight <= maxHeight) {
-            //log changes
             if(zoomDirection>0){
-                
                 int x = (int) ((Math.log(0.1/translateX))/Math.log(zoomDirection));
                 int y = (int) ((Math.log(0.1/translateY))/Math.log(zoomDirection));
-                //if(translateX > 3 && translateY > 3){
-                    translateX += translateX/x;
-                    translateY += translateY/y;
-                    
-                //}                
-                
+                translateX += translateX/x;
+                translateY += translateY/y;
             }
-            
-            
-            nbSavedImages++;
-            indiceImage++;
+
             zoomPercentage += zoomDirection;
             zoomRect.height = newHeight;
             zoomRect.width = newWidth;
             createEditedImage();
-            originator.addToCaretaker();
-        }
-    }
 
-    /**
-     * Méthode contenant le modèle permettant d'effectuer un retour à la dernière instance de l'image zoomé
-     */
-    public void undoZoom(){
-        if (indiceImage >= 1) {
-            //Décrémente le nb d'article dans la liste de caretakers
-            indiceImage--;
-            //Récupérer la dernière image sauvegardé dans le caretaker
-            ImageEdit imageToRestore = originator.restoreFromMemento(indiceImage - 1);
-            loadImageEdit(imageToRestore);
+            originator.addToCaretaker();
         }
     }
 
@@ -221,29 +185,16 @@ public class ImageEdit extends Observable implements Cloneable, Serializable {
 
     }
 
-    /**
-     * Méthode contenant le modèle permettant d'effectuer un retour à la dernière instance de l'image zoomé
-     */
-    public void redoZoom(){
-
-        
-        if((nbSavedImages - 1) > indiceImage){
-
-            
-            //Incrémente l'indice de l'image affiché
-            indiceImage++;
-
-            //Recupère l'image la plus récente et l'affiche
-            ImageEdit imageToRestore = originator.restoreFromMemento(indiceImage);
-            loadImageEdit(imageToRestore);
-
-        }
-
-        
+    public void undo(){
+        originator.undo();
     }
 
-    public int getNbSavedImages() {
-        return nbSavedImages;
+    public void redo(){
+        originator.redo();
+    }
+
+    public void resetOriginator(){
+        originator.clearCaretaker();
     }
 
 

@@ -28,13 +28,11 @@ public abstract class FileUtils {
 
     public static void readWipFile(FileInputStream fileIn) {
         try {
-
             ObjectInputStream in = new ObjectInputStream(fileIn);
             ImageEdit.getSingleton().readImageEdit(in);
             in.close();
             fileIn.close();
             System.out.println("Serialized data loaded.");
-
         } catch (Exception e) {
             System.out.println("Cant read object");
             e.printStackTrace();

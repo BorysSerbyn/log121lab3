@@ -37,6 +37,7 @@ public class TranslationPanel extends JPanel implements Observer {
     public void initialize(){
         imageLabel = new JLabel();
         BufferedImage image = ImageEdit.getSingleton().getZoomedImage();
+        imageHeight = (int)(((double) imageWidth/image.getWidth()) * image.getHeight());
         ImageIcon imageIcon = new ImageIcon(image.getScaledInstance(imageWidth, imageHeight, Image.SCALE_SMOOTH));
         imageLabel.setIcon(imageIcon);
 

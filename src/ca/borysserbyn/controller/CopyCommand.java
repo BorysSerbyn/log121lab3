@@ -5,8 +5,6 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JOptionPane;
 
-import ca.borysserbyn.model.memento.Caretaker;
-
 import ca.borysserbyn.model.ImageEdit;
 
 public class CopyCommand implements ActionListener{

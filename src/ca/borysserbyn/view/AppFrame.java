@@ -1,5 +1,9 @@
 package ca.borysserbyn.view;
 
+import ca.borysserbyn.controller.CopyCommand;
+import ca.borysserbyn.controller.PasteCommand;
+import ca.borysserbyn.controller.RedoCommand;
+import ca.borysserbyn.controller.UndoCommand;
 import ca.borysserbyn.model.ImageEdit;
 import ca.borysserbyn.model.memento.Originator;
 import ca.borysserbyn.model.Thumbnail;
@@ -17,6 +21,7 @@ public class AppFrame extends JFrame {
     private ImageEdit imageEdit;
     private Originator originator;
     private MenuToolBar menuFenetre;
+    private EditToolBar editToolBar;
 
     public AppFrame(Thumbnail thumbnail){
         super();
@@ -44,9 +49,12 @@ public class AppFrame extends JFrame {
         imageEdit.addObserver(translationPanel);
         thumbnail.addObserver(thumbnailPanel);
 
+        editToolBar = new EditToolBar();
+
+        add(editToolBar, BorderLayout.PAGE_END);
         add(zoomPanel, BorderLayout.LINE_START);
-        add(translationPanel, BorderLayout.LINE_END);
-        add(thumbnailPanel, BorderLayout.PAGE_END);
+        add(translationPanel, BorderLayout.CENTER);
+        add(thumbnailPanel, BorderLayout.LINE_END);
 
         pack();
         setResizable(false);

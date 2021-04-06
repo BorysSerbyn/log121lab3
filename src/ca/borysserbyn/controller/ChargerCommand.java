@@ -44,17 +44,14 @@ public class ChargerCommand implements ActionListener{
 
             File selectedFile = fileChooser.getSelectedFile();
             System.out.println(selectedFile.getAbsolutePath());
-            Path filePath = Paths.get(selectedFile.getAbsolutePath());
 
-            BufferedImage image;
             try {
+                Path filePath = Paths.get(selectedFile.getAbsolutePath());
                 String contentType = Files.probeContentType(filePath);
-                if (contentType != null && contentType.equals("image/jpeg")) {
 
-                    image = ImageIO.read(selectedFile);
-                    if (!imageEdit.getOriginator().originatorIsEmpty()) {
-                        imageEdit.getOriginator().clearCaretaker();
-                    }
+                imageEdit.resetOriginator();
+                if (contentType != null && contentType.equals("image/jpeg")) {
+                    BufferedImage image = ImageIO.read(selectedFile);
                     ImageEdit.getSingleton().loadImageEdit(new ImageEdit(image));
                     imageEdit.createEditedImage();
                     Thumbnail.getSingleton().setImage(image);
@@ -62,7 +59,7 @@ public class ChargerCommand implements ActionListener{
                     FileInputStream fileIn = new FileInputStream(selectedFile);
                     FileUtils.readWipFile(fileIn);
                 }
-                System.out.println(contentType);
+
             } catch (IOException e1) {
 
                 e1.printStackTrace();

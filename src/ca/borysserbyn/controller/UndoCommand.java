@@ -20,7 +20,7 @@ public class UndoCommand implements ActionListener{
                     JOptionPane.ERROR_MESSAGE);
         }else{
 
-            imageEdit.undoZoom();
+            imageEdit.undo();
 
         }
           

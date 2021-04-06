@@ -12,8 +12,8 @@ import ca.borysserbyn.model.Thumbnail;
 
 public class ThumbnailPanel extends JPanel implements Observer {
     private JLabel imageLabel;
-    private int imageWidth = 325;
-    private int imageHeight = 375;
+    private int imageWidth = 150;
+    private int imageHeight = 200;
     
 
     public ThumbnailPanel() {
@@ -27,6 +27,8 @@ public class ThumbnailPanel extends JPanel implements Observer {
         //récupère instance de l'image
         imageLabel = new JLabel();
         BufferedImage image = Thumbnail.getSingleton().getImage();
+        imageHeight = (int)(((double) imageWidth/image.getWidth()) * image.getHeight());
+        System.out.println(image.getWidth());
         ImageIcon imageIcon = new ImageIcon(image.getScaledInstance(imageWidth, imageHeight, Image.SCALE_SMOOTH));
         imageLabel.setIcon(imageIcon);
         add(imageLabel, BorderLayout.NORTH);
@@ -40,6 +42,7 @@ public class ThumbnailPanel extends JPanel implements Observer {
          */
         Thumbnail thumbnail = (Thumbnail) arg1;
         BufferedImage image = thumbnail.getImage();
+        imageHeight = (int)(((double) imageWidth/image.getWidth()) * image.getHeight());
         imageLabel.setIcon(new ImageIcon(image.getScaledInstance(imageWidth, imageHeight,
         Image.SCALE_SMOOTH)));
     }

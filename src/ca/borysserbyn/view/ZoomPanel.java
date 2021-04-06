@@ -16,7 +16,6 @@ import ca.borysserbyn.model.ImageEdit;
 
 public class ZoomPanel extends JPanel implements Observer {
     private JLabel imageLabel;
-    private JButton undoZoom, redoZoom, copyEdit, pasteEdit;
     private int imageWidth = 325;
     private int imageHeight = 375;
 
@@ -40,35 +39,15 @@ public class ZoomPanel extends JPanel implements Observer {
         //récupère instance de l'image
         imageLabel = new JLabel();
         BufferedImage image = ImageEdit.getSingleton().getZoomedImage();
+        imageHeight = (int)(((double) imageWidth/image.getWidth()) * image.getHeight());
         ImageIcon imageIcon = new ImageIcon(image.getScaledInstance(imageWidth, imageHeight, Image.SCALE_SMOOTH));
         imageLabel.setIcon(imageIcon);
-
-        JToolBar toolBar = new JToolBar();
 
         //ajout d'un mousewheel listener au panneau courant
         this.addMouseWheelListener(new ZoomInCommand());
 
-        //initialization des boutons
-        this.undoZoom = new JButton("undo");
-        this.redoZoom = new JButton("redo");
-        this.copyEdit = new JButton("copy edit");
-        this.pasteEdit = new JButton("paste edit");
-
-        //ajout d'un action listener sur tous les bouttons
-        undoZoom.addActionListener(new UndoCommand());
-        redoZoom.addActionListener(new RedoCommand());
-        copyEdit.addActionListener(new CopyCommand());
-        pasteEdit.addActionListener(new PasteCommand());
-
-        //ajout des bouttons au sous-panneau
-        toolBar.add(undoZoom);
-        toolBar.add(redoZoom);
-        toolBar.add(copyEdit);
-        toolBar.add(pasteEdit);
-
         //ajout de l'image et du sous panneau des bouttons au panneau zoom
         add(imageLabel, BorderLayout.NORTH);
-        add(toolBar, BorderLayout.PAGE_END);
         setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
     }

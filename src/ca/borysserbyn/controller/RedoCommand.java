@@ -21,7 +21,7 @@ public class RedoCommand implements ActionListener{
                     JOptionPane.ERROR_MESSAGE);
         }else{
 
-            imageEdit.redoZoom();
+            imageEdit.redo();
 
         }
           

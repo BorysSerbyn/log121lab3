@@ -2,12 +2,16 @@ package ca.borysserbyn.model.memento;
 
 import java.util.ArrayList;
 
-public class Caretaker {
+public class History {
 
     //Liste des memento contenant des état d'image édité sauvegardé
-    ArrayList<Memento> savedImages;
-    
-    public Caretaker(){ savedImages = new ArrayList<Memento>(); }
+    private ArrayList<Memento> savedImages;
+
+    public void setSavedImages(ArrayList<Memento> savedImages) {
+        this.savedImages = savedImages;
+    }
+
+    public History(){ savedImages = new ArrayList<Memento>(); }
 
     //Ajoute un memento à la liste
     public void addMemento(Memento m){ savedImages.add(m); }
