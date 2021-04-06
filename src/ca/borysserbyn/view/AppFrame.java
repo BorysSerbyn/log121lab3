@@ -66,27 +66,4 @@ public class AppFrame extends JFrame {
     public Thumbnail getThumbnail() {
         return thumbnail;
     }
-
-    public static void main(String[] args) {
-        try {
-            JFileChooser fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
-            fileChooser.setDialogTitle("Selectionner une image");
-			fileChooser.setAcceptAllFileFilterUsed(false);
-			// Creer un filtre
-			FileNameExtensionFilter filtre = new FileNameExtensionFilter(".jpg", "jpg");
-		    fileChooser.addChoosableFileFilter(filtre);
-			int returnValue = fileChooser.showOpenDialog(null);
-
-			if (returnValue == JFileChooser.APPROVE_OPTION) {
-				
-				File selectedFile = fileChooser.getSelectedFile();
-                BufferedImage image = ImageIO.read(selectedFile);
-                //Garder cette ligne pour tester sans le file chooser donc plus rapidement l'enlever avant de faire le final commit
-                //BufferedImage image = ImageIO.read(new File("./images/cool_image.jpg"));
-                AppFrame appFrame = new AppFrame(new Thumbnail(image));
-            }
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-    }
 }
