@@ -8,7 +8,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Observable;
 
-import ca.borysserbyn.Position;
+
 import ca.borysserbyn.model.memento.Originator;
 
 import javax.imageio.ImageIO;
@@ -21,7 +21,6 @@ public class ImageEdit extends Observable implements Cloneable, Serializable {
     private transient BufferedImage zoomedImage;
     private int translateX = 0;
     private int translateY = 0;
-    private Position curseur = new Position(0, 0);
     private double zoomPercentage = 100;
     private Rectangle zoomRect;
     private static ImageEdit singleton;
@@ -41,6 +40,7 @@ public class ImageEdit extends Observable implements Cloneable, Serializable {
         readImage.baseImage = ImageIO.read(in);
         readImage.editedImage = ImageIO.read(in);
         readImage.zoomedImage = ImageIO.read(in);
+        Thumbnail.getSingleton().setImage(readImage.baseImage);
         loadImageEdit(readImage);
     }
     
@@ -131,7 +131,7 @@ public class ImageEdit extends Observable implements Cloneable, Serializable {
 
     public synchronized void createEditedImage(){
         editedImage = baseImage.getSubimage(translateX, translateY, zoomRect.width, zoomRect.height);
-        zoomedImage = baseImage.getSubimage(curseur.getX(), curseur.getY(), zoomRect.width, zoomRect.height);
+        zoomedImage = baseImage.getSubimage(0,0 , zoomRect.width, zoomRect.height);
         
         //originator.addToCaretaker();
         super.setChanged();
@@ -145,10 +145,6 @@ public class ImageEdit extends Observable implements Cloneable, Serializable {
 
     public int getTranslateY() {
         return translateY;
-    }
-
-    public Position getCurseur(){
-        return curseur;
     }
 
     public void incrementX(int delta) {

@@ -1,6 +1,7 @@
 package ca.borysserbyn;
 
 import ca.borysserbyn.model.ImageEdit;
+import ca.borysserbyn.model.Thumbnail;
 
 import javax.swing.*;
 import java.io.*;
@@ -26,7 +27,7 @@ public abstract class FileUtils {
         }
     }
 
-    public static void readWithFileChooser(FileInputStream fileIn) {
+    public static void readWipFile(FileInputStream fileIn) {
         try {
 
             ObjectInputStream in = new ObjectInputStream(fileIn);

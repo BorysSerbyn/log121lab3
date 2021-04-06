@@ -60,7 +60,7 @@ public class ChargerCommand implements ActionListener{
                         Thumbnail.getSingleton().setImage(image);
                     } else {
                         FileInputStream fileIn = new FileInputStream(selectedFile);
-                        FileUtils.readWithFileChooser(fileIn);
+                        FileUtils.readWipFile(fileIn);
                     }
                     System.out.println(contentType);
                 } catch (IOException e1) {
