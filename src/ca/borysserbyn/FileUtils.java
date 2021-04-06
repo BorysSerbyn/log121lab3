@@ -7,8 +7,7 @@ import javax.swing.*;
 import java.io.*;
 
 public abstract class FileUtils {
-
-    private static File savedWipsDir = new File("wip");
+    public static File savedWipsDir = new File("wip");
 
     public static void writeWithFileChooser(ImageEdit x) {
         try {

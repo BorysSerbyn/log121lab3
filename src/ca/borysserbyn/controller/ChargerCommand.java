@@ -21,54 +21,53 @@ import ca.borysserbyn.model.ImageEdit;
 import ca.borysserbyn.model.Thumbnail;
 import ca.borysserbyn.model.memento.Originator;
 
+import static ca.borysserbyn.FileUtils.savedWipsDir;
+
 public class ChargerCommand implements ActionListener{
     private ImageEdit imageEdit = ImageEdit.getSingleton();
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        
-        
-        JFileChooser fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
-			fileChooser.setDialogTitle("Selectionner une image ou une sauvegarde precedente");
-			fileChooser.setAcceptAllFileFilterUsed(true);
-            
-			// Creer un filtre
-			FileNameExtensionFilter filtre = new FileNameExtensionFilter(".jpg", "jpg");
-            //FileNameExtensionFilter filtreFichier = new FileNameExtensionFilter("Fichier", ".");
-		    fileChooser.addChoosableFileFilter(filtre);
-            //fileChooser.addChoosableFileFilter(filtreFichier);
+        JFileChooser fileChooser = new JFileChooser(savedWipsDir);
+        fileChooser.setDialogTitle("Selectionner une image ou une sauvegarde precedente");
+        fileChooser.setAcceptAllFileFilterUsed(true);
 
-			int returnValue = fileChooser.showOpenDialog(null);
+        // Creer un filtre
+        FileNameExtensionFilter filtre = new FileNameExtensionFilter(".jpg", "jpg");
+        //FileNameExtensionFilter filtreFichier = new FileNameExtensionFilter("Fichier", ".");
+        fileChooser.addChoosableFileFilter(filtre);
+        //fileChooser.addChoosableFileFilter(filtreFichier);
 
-			if (returnValue == JFileChooser.APPROVE_OPTION) {
-				
-				File selectedFile = fileChooser.getSelectedFile();
-				System.out.println(selectedFile.getAbsolutePath());
-                Path filePath = Paths.get(selectedFile.getAbsolutePath());
-                
-                BufferedImage image;
-                try {
-                    String contentType = Files.probeContentType(filePath);
-                    if (contentType != null && contentType.equals("image/jpeg")) {
-                        
-                        image = ImageIO.read(selectedFile);
-                        if (!imageEdit.getOriginator().originatorIsEmpty()) {
-                            imageEdit.getOriginator().clearCaretaker();
-                        }
-                        ImageEdit.getSingleton().loadImageEdit(new ImageEdit(image));
-                        imageEdit.createEditedImage();
-                        Thumbnail.getSingleton().setImage(image);
-                    } else {
-                        FileInputStream fileIn = new FileInputStream(selectedFile);
-                        FileUtils.readWipFile(fileIn);
+        int returnValue = fileChooser.showOpenDialog(null);
+
+        if (returnValue == JFileChooser.APPROVE_OPTION) {
+
+            File selectedFile = fileChooser.getSelectedFile();
+            System.out.println(selectedFile.getAbsolutePath());
+            Path filePath = Paths.get(selectedFile.getAbsolutePath());
+
+            BufferedImage image;
+            try {
+                String contentType = Files.probeContentType(filePath);
+                if (contentType != null && contentType.equals("image/jpeg")) {
+
+                    image = ImageIO.read(selectedFile);
+                    if (!imageEdit.getOriginator().originatorIsEmpty()) {
+                        imageEdit.getOriginator().clearCaretaker();
                     }
-                    System.out.println(contentType);
-                } catch (IOException e1) {
-                    
-                    e1.printStackTrace();
+                    ImageEdit.getSingleton().loadImageEdit(new ImageEdit(image));
+                    imageEdit.createEditedImage();
+                    Thumbnail.getSingleton().setImage(image);
+                } else {
+                    FileInputStream fileIn = new FileInputStream(selectedFile);
+                    FileUtils.readWipFile(fileIn);
                 }
-                
-			}
+                System.out.println(contentType);
+            } catch (IOException e1) {
+
+                e1.printStackTrace();
+            }
+
+        }
     }
-    
 }

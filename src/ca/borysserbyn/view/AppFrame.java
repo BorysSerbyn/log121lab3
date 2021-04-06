@@ -14,6 +14,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+import static ca.borysserbyn.FileUtils.savedWipsDir;
+
 public class AppFrame extends JFrame {
     private TranslationPanel translationPanel;
     private ZoomPanel zoomPanel;
@@ -69,7 +71,7 @@ public class AppFrame extends JFrame {
 
     public static void main(String[] args) {
         try {
-            JFileChooser fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+            JFileChooser fileChooser = new JFileChooser(savedWipsDir);
             fileChooser.setDialogTitle("Selectionner une image");
 			fileChooser.setAcceptAllFileFilterUsed(false);
 			// Creer un filtre
@@ -78,7 +80,7 @@ public class AppFrame extends JFrame {
 			int returnValue = fileChooser.showOpenDialog(null);
 
 			if (returnValue == JFileChooser.APPROVE_OPTION) {
-				
+
 				File selectedFile = fileChooser.getSelectedFile();
                 BufferedImage image = ImageIO.read(selectedFile);
                 //Garder cette ligne pour tester sans le file chooser donc plus rapidement l'enlever avant de faire le final commit
