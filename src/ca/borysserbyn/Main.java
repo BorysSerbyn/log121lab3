@@ -12,11 +12,13 @@ import java.awt.image.BufferedImage;
 import ca.borysserbyn.model.Thumbnail;
 import ca.borysserbyn.view.AppFrame;
 
+import static ca.borysserbyn.FileUtils.savedWipsDir;
+
 public class Main {
     
     public static void main(String[] args) {
         try {
-            JFileChooser fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+            JFileChooser fileChooser = new JFileChooser(savedWipsDir);
             fileChooser.setDialogTitle("Selectionner une image");
 			fileChooser.setAcceptAllFileFilterUsed(false);
             
